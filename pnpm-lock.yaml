@@ -14,6 +14,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.3.1
         version: 4.3.1(@types/node@24.3.1)(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(jiti@2.5.1)(lightningcss@1.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@gsap/react':
+        specifier: ^2.1.2
+        version: 2.1.2(gsap@3.13.0)(react@19.1.1)
       '@measured/puck':
         specifier: ^0.20.2
         version: 0.20.2(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -59,6 +62,9 @@ importers:
       cookie:
         specifier: ^1.0.2
         version: 1.0.2
+      gsap:
+        specifier: ^3.13.0
+        version: 3.13.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -396,6 +402,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@gsap/react@2.1.2':
+    resolution: {integrity: sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw==}
+    peerDependencies:
+      gsap: ^3.12.5
+      react: '>=17'
 
   '@img/sharp-darwin-arm64@0.34.3':
     resolution: {integrity: sha512-ryFMfvxxpQRsgZJqBd4wsttYQbCxsJksrv9Lw/v798JcQ8+w84mBWuXwl+TT0WJ/WrYOLaYpwQXi3sA9nTIaIg==}
@@ -1452,6 +1464,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  gsap@3.13.0:
+    resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
 
   h3@1.15.4:
     resolution: {integrity: sha512-z5cFQWDffyOe4vQ9xIqNfCZdV4p//vy6fBnr8Q1AWnVZ0teurKMG66rLj++TKwKPUP3u7iMUvrvKaEUiQw2QWQ==}
@@ -2883,6 +2898,11 @@ snapshots:
   '@esbuild/win32-x64@0.25.9':
     optional: true
 
+  '@gsap/react@2.1.2(gsap@3.13.0)(react@19.1.1)':
+    dependencies:
+      gsap: 3.13.0
+      react: 19.1.1
+
   '@img/sharp-darwin-arm64@0.34.3':
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.2.0
@@ -3964,6 +3984,8 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
+
+  gsap@3.13.0: {}
 
   h3@1.15.4:
     dependencies:

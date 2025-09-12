@@ -24,6 +24,7 @@ const pages = Object.keys(modules).map(path => {
   <div class="grid grid-cols-[250px_1fr] h-screen ">
     <!-- Sidebar -->
     <Sidebar client:load pages={pages}/>
+
     <!-- Main Content -->
     <section class=" bg-white">
       <h1 class="text-xl font-bold mb-2">Welcome to your Dashboard</h1>

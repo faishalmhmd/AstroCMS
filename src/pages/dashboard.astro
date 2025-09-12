@@ -1,0 +1,39 @@
+---
+import Main from '../layouts/main.astro'
+import { getUser, type User } from '../lib/user';
+import Sidebar from '../components/Puck/Sidebar';
+
+const user: User | null = await getUser(Astro);
+
+if (!user) {
+  return Astro.redirect('/login');
+}
+
+
+const modules = import.meta.glob('/src/pages/*.astro', { eager: true });
+
+const pages = Object.keys(modules).map(path => {
+  const fileName = path.split('/').pop();
+  return fileName ? fileName.replace('.astro', '') : '';
+}).filter(name => name && !['index', 'dashboard'].includes(name)); 
+
+
+---
+
+<Main content={{ title: "Dashboard" }}>
+  <div class="grid grid-cols-[250px_1fr] h-screen ">
+    <!-- Sidebar -->
+    <Sidebar client:load pages={pages}/>
+    <!-- Main Content -->
+    <section class=" bg-white">
+      <h1 class="text-xl font-bold mb-2">Welcome to your Dashboard</h1>
+      <p>Hello, {user.username}!</p>
+      <p>Email: {user.email}</p>
+      <form action="/api/auth/logout" method="post" class="mt-4">
+        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">
+          Logout
+        </button>
+      </form>
+    </section>
+  </div>
+</Main>

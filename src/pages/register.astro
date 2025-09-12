@@ -1,0 +1,9 @@
+---
+import Main from '../layouts/main.astro'
+import RegisterForm from '../components/react/RegisterForm.js';
+---
+
+<Main content={{ title: "Home Page" }}>
+    <RegisterForm client:load />
+    <p><a href="/login">Already have an account? Login here</a></p>
+</Main>

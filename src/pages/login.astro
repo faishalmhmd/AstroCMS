@@ -1,0 +1,7 @@
+---
+import Main from '../layouts/main.astro'
+import LoginForm from '../components/react/LoginForm.tsx';
+---
+<Main content={{ title: "Home Page" }}>
+    <LoginForm client:load />
+</Main>

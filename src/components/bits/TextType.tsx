@@ -1,7 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
+import { type ElementType, useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
+
+interface TextTypeProps {
+  className?: string;
+  showCursor?: boolean;
+  hideCursorWhileTyping?: boolean;
+  cursorCharacter?: string | React.ReactNode;
+  cursorBlinkDuration?: number;
+  cursorClassName?: string;
+  text: string | string[];
+  as?: ElementType;
+  typingSpeed?: number;
+  initialDelay?: number;
+  pauseDuration?: number;
+  deletingSpeed?: number;
+  loop?: boolean;
+  textColors?: string[];
+  variableSpeed?: { min: number; max: number };
+  onSentenceComplete?: (sentence: string, index: number) => void;
+  startOnVisible?: boolean;
+  reverseMode?: boolean;
+}
 
 const TextType = ({
   text,
@@ -23,14 +44,14 @@ const TextType = ({
   startOnVisible = false,
   reverseMode = false,
   ...props
-}) => {
+}: TextTypeProps & React.HTMLAttributes<HTMLElement>) => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
-  const cursorRef = useRef(null);
-  const containerRef = useRef(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
@@ -41,7 +62,7 @@ const TextType = ({
   }, [variableSpeed, typingSpeed]);
 
   const getCurrentTextColor = () => {
-    if (textColors.length === 0) return '#000';
+    if (textColors.length === 0) return '#ffffff';
     return textColors[currentTextIndex % textColors.length];
   };
 
@@ -79,7 +100,7 @@ const TextType = ({
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout;
+    let timeout: NodeJS.Timeout;
 
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
@@ -128,7 +149,6 @@ const TextType = ({
     }
 
     return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentCharIndex,
     displayedText,

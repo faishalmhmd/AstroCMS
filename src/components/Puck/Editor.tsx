@@ -1,15 +1,10 @@
 import { Puck } from "@measured/puck";
 import "@measured/puck/puck.css";
 import TextType from "../bits/TextType";
+import { fontBold, fontSize, fontColor} from "../../lib/tailwind/utilFont"
 
 const config = {
   components: {
-    HeadingBlock: {
-      fields: {
-        children: { type: "text" },
-      },
-      render: (props: any) => <h1 className="text-3xl font-bold">{props.children}</h1>,
-    },
   TextType: {
       fields: {
         text: {
@@ -18,14 +13,22 @@ const config = {
           arrayFields: {
             value: { type: "text" },
           },
+          getItemSummary: (item: any, index: number) => item.title || `Item No ${index + 1}`,
+          max: 5,
         },
         textColor: {
           label: "Text Color (HEX)",
           type: "array",
           arrayFields: {
-            value: { type: "text" },
+            value: { 
+              type: "text",
+              label: "Hello"
+             },
           },
         },
+        fontBold : fontBold,
+        fontSize : fontSize,
+        fontColor: fontColor,
         typingSpeed: { 
           label: "Typing Speed",
           type: "number" 
@@ -41,14 +44,15 @@ const config = {
           label : 'Show Cursor',
           type: "radio",
           options: [
-            { label: "Left", value: true },
-            { label: "Right", value: false },
+            { label: "Yes", value: true },
+            { label: "No", value: false },
           ],
         },
         
       },
       render: (props: any) => (
         <TextType
+          className={[props.fontBold, props.fontSize, props.fontColor].filter(Boolean).join(" ")}
           text={(props.text ?? []).map((item: { value: string }) => item.value)}
           textColors={(props.textColor ?? []).map((item: { value: string }) => item.value)}
           typingSpeed={props.typingSpeed ?? 75}
@@ -58,53 +62,6 @@ const config = {
           variableSpeed={props.variableSpeed ?? false}
           onSentenceComplete={props.onSentenceComplete ?? (() => {})}
         />
-      ),
-    },
-    ImageBlock: {
-      fields: {
-        src: { type: "text" },
-        alt: { type: "text" },
-      },
-      render: (props: any) => (
-        <img
-          src={props.src}
-          alt={props.alt}
-          className="max-w-full rounded-lg shadow-md"
-        />
-      ),
-    },
-
-    ButtonBlock: {
-      fields: {
-        label: { type: "text" },
-        url: { type: "text" },
-      },
-      render: (props: any) => (
-        <a
-          href={props.url}
-          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          {props.label}
-        </a>
-      ),
-    },
-
-    HeroSection: {
-      fields: {
-        title: { type: "text" },
-        subtitle: { type: "textarea" },
-        image: { type: "text" },
-      },
-      render: (props: any) => (
-        <div className="flex items-center gap-6 bg-gray-100 p-6 rounded-xl">
-          <div>
-            <h2 className="text-2xl font-bold">{props.title}</h2>
-            <p className="text-gray-600">{props.subtitle}</p>
-          </div>
-          {props.image && (
-            <img src={props.image} alt="Hero" className="w-40 h-40 rounded-lg" />
-          )}
-        </div>
       ),
     },
   },

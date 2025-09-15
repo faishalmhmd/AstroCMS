@@ -4,5 +4,5 @@ import Main from '../layouts/main.astro'
 ---
 
 <Main content={{ title: "Dashboard" }}>
-    <Editor client:idle/>
+    <Editor client:only="react"  />
 </Main>

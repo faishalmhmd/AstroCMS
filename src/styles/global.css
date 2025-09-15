@@ -118,3 +118,43 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Default Light Mode */
+:root {
+  --puck-bg: #ffffff;
+  --puck-text: #111111;
+  --puck-sidebar-bg: #f8f8f8;
+  --puck-border: #e0e0e0;
+}
+
+/* Dark Mode */
+.dark {
+  --puck-bg: #1e1e1e;
+  --puck-text: #f5f5f5;
+  --puck-sidebar-bg: #2a2a2a;
+  --puck-border: #3a3a3a;
+}
+
+/* Apply to Puck Layout */
+.Puck {
+  background-color: var(--puck-bg) !important;
+  color: var(--puck-text) !important;
+}
+
+.Puck ._PuckLayout_1yxlw_38,
+.Puck ._PuckSidebar_*,
+.Puck ._PuckHeader_*,
+.Puck ._PuckCanvas_* {
+  background-color: var(--puck-sidebar-bg) !important;
+  color: var(--puck-text) !important;
+  border-color: var(--puck-border) !important;
+}
+
+.Puck button,
+.Puck input,
+.Puck select {
+  background-color: var(--puck-bg) !important;
+  color: var(--puck-text) !important;
+  border-color: var(--puck-border) !important;
+}

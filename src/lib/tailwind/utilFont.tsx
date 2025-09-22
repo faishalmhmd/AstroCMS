@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 
 export const fontBold = {
   label: "Font Bold",
-  type: "custom",
-  render: ({ name, onChange, value }) => (
+  type: "custom" as const,
+  render: ({ name, onChange, value }: { name: string; onChange: (v: string) => void; value: string }) => (
     <div className="w-full">
       <Label className="my-4 text-black">Select font bold</Label>
       <Select value={value} onValueChange={val => onChange(val)} name={name}>
@@ -34,8 +34,8 @@ export const fontBold = {
 
 export const fontSize = {
   label: "Font Size",
-  type: "custom",
-  render: ({ name, onChange, value }) => (
+  type: "custom" as const,
+  render: ({ name, onChange, value }: { name: string; onChange: (v: string) => void; value: string }) => (
     <div className="w-full">
       <Label className="my-4 text-black">Select font size</Label>
       <Select value={value} onValueChange={val => onChange(val)} name={name}>
@@ -54,20 +54,29 @@ export const fontSize = {
   ),
 };
 
+
 export const fontColor = {
   label: "Font Color",
-  type: "custom",
-  render: ({ name, onChange, value }) => (
+  type: "custom" as const,
+  render: (({ name, onChange, value }: { name: string; onChange: (v: string) => void; value: string }) => (
     <div className="w-full">
       <Label className="my-4 text-black">Select text color</Label>
-      <SearchableColorSelect value={value} onValueChange={onChange} name={name} />
+      <SearchableColorSelect value={value} onChange={onChange} name={name} />
     </div>
-  ),
+  )),
 };
 
-function SearchableColorSelect({ value, onValueChange, name }) {
+function SearchableColorSelect({
+  name,
+  onChange,
+  value,
+}: {
+  name: string;
+  onChange: (v: string) => void;
+  value: string;
+}) {
   const [open, setOpen] = useState(false);
-  const selectedItem = textColor.find(item => item.text === value);
+  const selectedItem = textColor.find((item) => item.text === value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -89,12 +98,12 @@ function SearchableColorSelect({ value, onValueChange, name }) {
           <CommandInput placeholder="Search colors..." />
           <CommandEmpty>No color found.</CommandEmpty>
           <CommandGroup>
-            {textColor.map(item => (
+            {textColor.map((item) => (
               <CommandItem
                 key={item.text}
                 value={item.text}
-                onSelect={currentValue => {
-                  onValueChange(currentValue === value ? "" : currentValue);
+                onSelect={(currentValue) => {
+                  onChange(currentValue === value ? "" : currentValue); // pakai onChange
                   setOpen(false);
                 }}
               >

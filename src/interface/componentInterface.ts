@@ -26,6 +26,7 @@ type LeftSidebarProps = {
     gapY: number;
     paddingX: number;
     paddingY: number;
+    Sidebar: Slot;
     Content: Slot;
 };
 

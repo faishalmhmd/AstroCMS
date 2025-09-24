@@ -9,6 +9,7 @@ export type GridProps = {
   gapY: number;
   paddingX: number;
   paddingY: number;
+  Sidebar: Slot;
   Content: Slot;
 };
 
@@ -60,6 +61,9 @@ export const LeftSidebar: ComponentConfig<GridProps> = {
       type: "number",
       min: 0,
     }),
+    Sidebar: {
+      type: "slot",
+    },
     Content: {
       type: "slot",
     },
@@ -72,14 +76,16 @@ export const LeftSidebar: ComponentConfig<GridProps> = {
     gapY: 16,
     paddingX: 16,
     paddingY: 16,
+    Sidebar: [],
     Content: [],
   },
-  render: ({ col, colMd, colSm, gapX, gapY, paddingX, paddingY, Content }) => {
+  render: ({ col, colMd, colSm, gapX, gapY, paddingX, paddingY, Sidebar, Content }) => {
     return (
       <div className="grid grid-cols-[10fr_90fr] h-screen">
-        <div className="">herererer</div>
+        <Sidebar className="LeftSidebar-sidebar" collisionAxis="dynamic" />
+
         <Content
-          className="grid-container grid"
+          className="LeftSidebar grid"
           style={{
             gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))`,
             columnGap: `${gapX}px`,
@@ -88,16 +94,17 @@ export const LeftSidebar: ComponentConfig<GridProps> = {
           }}
           collisionAxis="dynamic"
         />
+
         <style>
           {`
             @media (max-width: 500px) {
-              .grid-container {
+              .LeftSidebar {
                 grid-template-columns: repeat(${colMd}, minmax(0, 1fr)) !important;
               }
             }
 
             @media (min-width: 501px) and (max-width: 1024px) {
-              .grid-container {
+              .LeftSidebar {
                 grid-template-columns: repeat(${colSm}, minmax(0, 1fr)) !important;
               }
             }

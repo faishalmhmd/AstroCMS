@@ -12,7 +12,8 @@ export type GridProps = {
   Content: Slot;
 };
 
-export const Grid: ComponentConfig<GridProps> = {
+export const LeftSidebar: ComponentConfig<GridProps> = {
+  label: "LeftSidebar",
   fields: {
     col: InputField({
       label: "Col Default Size",
@@ -75,7 +76,8 @@ export const Grid: ComponentConfig<GridProps> = {
   },
   render: ({ col, colMd, colSm, gapX, gapY, paddingX, paddingY, Content }) => {
     return (
-      <div>
+      <div className="grid grid-cols-[10fr_90fr] h-screen">
+        <div className="">herererer</div>
         <Content
           className="grid-container grid"
           style={{

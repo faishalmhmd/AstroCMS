@@ -1,48 +1,41 @@
-import { Puck, type Config, type Data, type Slot, DropZone, type Content } from "@measured/puck";
-import type { SlotComponent } from "@measured/puck";
 import "@measured/puck/puck.css";
-import { Header } from "@/components/Puck/Text/index";
-// import { Grid } from "@/components/Puck/Layout/Grid";
+import { Puck, type Config, type Data } from "@measured/puck";
+import { Header } from "@/components/Puck/Text";
+import { Card } from "@/components/Puck/Content"
+import { Grid, LeftSidebar } from "@/components/Puck/Layout";
 import DrawerItem from "./DrawerItem";
 import React from "react";
+import type { ComponentInterface, ComponentCategories } from "@/interface";
 
-import { Grid } from "@/components/Puck/Layout/Grid";
-
-type Components = {
-  Header: {
-    inputTitle: string | number;
-    fontBold: string;
-    fontSize: string;
-    fontColor: string;
-  };
-  Grid: {
-    columns: number;
-    Content1: Slot;
-  };
-};
-const config: Config<Components, any, "layout" | "text"> = {
+const config: Config<ComponentInterface, {}, ComponentCategories> = {
   categories: {
     layout: {
       title: "Layout",
-      components: ["Grid"],
+      components: ["Grid","LeftSidebar"],
     },
     text: {
       title: "Text",
       components: ["Header"],
     },
+    content : {
+      title : "Content",
+      components: ["Card"]
+    }
   },
   components: {
     Header,
     Grid,
+    LeftSidebar,
+    Card,
   },
 };
 
-const initialData: Data = {
+const initialData: Data<ComponentInterface> = {
   content: [],
-  root: { props: { title: "" } },
+  root: { props: {} },
 };
 
-const save = (data: Data): void => {
+const save = (data: Data<ComponentInterface>): void => {
   console.log("Saved data:", data);
 };
 

@@ -1,2 +1,3 @@
 import { Header } from "./Header";
-export { Header }
+import { Paragraph } from "./Paragraph";
+export { Header, Paragraph }

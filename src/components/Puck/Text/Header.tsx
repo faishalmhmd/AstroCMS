@@ -1,13 +1,7 @@
 import { fontBold, fontSize, fontColor } from "@/lib/tailwind/utilFont";
 import { InputField } from "@/lib/tailwind/utilInput";
 import type { ComponentConfig } from "@measured/puck";
-
-type HeaderProps = {
-  inputTitle: string | number;
-  fontBold: string;
-  fontSize: string;
-  fontColor: string;
-};
+import type { HeaderProps } from "@/interface";
 
 export const Header: ComponentConfig<HeaderProps> = {
   fields: {

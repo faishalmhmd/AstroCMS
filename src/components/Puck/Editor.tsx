@@ -1,8 +1,8 @@
 import "@measured/puck/puck.css";
 import { Puck, type Config, type Data } from "@measured/puck";
-import { Header } from "@/components/Puck/Text";
+import { Header, Paragraph } from "@/components/Puck/Text";
 import { Card } from "@/components/Puck/Content"
-import { Grid, LeftSidebar } from "@/components/Puck/Layout";
+import { Grid, Flex, LeftSidebar } from "@/components/Puck/Layout";
 import DrawerItem from "./DrawerItem";
 import React from "react";
 import type { ComponentInterface, ComponentCategories } from "@/interface";
@@ -11,11 +11,11 @@ const config: Config<ComponentInterface, {}, ComponentCategories> = {
   categories: {
     layout: {
       title: "Layout",
-      components: ["Grid","LeftSidebar"],
+      components: ["Grid" ,"Flex","LeftSidebar"],
     },
     text: {
       title: "Text",
-      components: ["Header"],
+      components: ["Header", "Paragraph"],
     },
     content : {
       title : "Content",
@@ -24,7 +24,9 @@ const config: Config<ComponentInterface, {}, ComponentCategories> = {
   },
   components: {
     Header,
+    Paragraph,
     Grid,
+    Flex,
     LeftSidebar,
     Card,
   },

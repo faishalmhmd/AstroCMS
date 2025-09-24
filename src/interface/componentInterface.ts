@@ -1,4 +1,6 @@
 import type { Slot } from "@measured/puck";
+import type { Config } from "@measured/puck"
+
 
 type HeaderProps = {
     inputTitle: string | number;
@@ -37,11 +39,24 @@ type CardProps = {
     borderRadius: number;
 }
 
+type ParagraphProps ={
+    title: string;
+}
+
+export type FlexProps = {
+  direction: "row" | "column";
+  justify:"flex-start" | "center" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+  align: "flex-start" | "center" | "flex-end" | "stretch" | "baseline";
+  Content: Slot;
+};
+
 export interface ComponentInterface {
   Header: HeaderProps;
   Grid: GridProps;
+  Flex: FlexProps;
   Card: CardProps;
   LeftSidebar: LeftSidebarProps;
+  Paragraph: ParagraphProps;
 }
 
-export type { HeaderProps, GridProps, CardProps}
+export type { HeaderProps, GridProps, CardProps, ParagraphProps}

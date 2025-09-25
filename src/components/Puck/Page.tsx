@@ -1,12 +1,11 @@
-import { Render } from "@measured/puck";
-import type { Config } from "@measured/puck";
- 
-export function Page() {
+import { Render } from '@measured/puck';
+import type { Config } from '@measured/puck';
 
+export function Page() {
   const config: Config = {
     components: {},
   };
-  const data = {};   
+  const data = {};
 
   return <Render config={config} data={data} />;
 }

@@ -1,11 +1,10 @@
-
-import { Layers } from "lucide-react";
+import { Layers } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
 export default function Sidebar({ pages }: { pages: string[] }) {
   return (
@@ -15,17 +14,17 @@ export default function Sidebar({ pages }: { pages: string[] }) {
         <AccordionItem value="item-1">
           <AccordionTrigger>
             <span className="flex gap-4 items-center">
-                <Layers />
-                Pages
+              <Layers />
+              Pages
             </span>
-            </AccordionTrigger>
+          </AccordionTrigger>
           <AccordionContent>
-            {pages.map(name => (
-            <li key={name} className="list-none">
+            {pages.map((name) => (
+              <li key={name} className="list-none">
                 <a href={`/${name}`} className="hover:underline">
-                {name}
+                  {name}
                 </a>
-            </li>
+              </li>
             ))}
           </AccordionContent>
         </AccordionItem>

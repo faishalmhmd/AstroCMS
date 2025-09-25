@@ -10,5 +10,7 @@ export function getPages() {
         path: '/' + (name === 'index' ? '' : name),
       };
     })
-    .filter((page) => !['index', 'login', 'register', 'dashboard'].includes(page.name));
+    .filter(
+      (page) => !['index', 'login', 'register', 'dashboard'].includes(page.name)
+    );
 }

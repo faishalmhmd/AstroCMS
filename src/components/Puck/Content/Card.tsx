@@ -1,37 +1,40 @@
-import type { ComponentConfig, Slot } from "@measured/puck";
-import type { CardProps } from "@/interface";
-import { InputField } from "@/lib/tailwind/utilInput";
+import type { ComponentConfig, Slot } from '@measured/puck';
+import type { CardProps } from '@/interface';
+import { InputField } from '@/lib/tailwind/utilInput';
 
 export const Card: ComponentConfig<CardProps> = {
   fields: {
     Content: {
-      type: "slot",
+      type: 'slot',
     },
     backgroundColor: InputField({
-      label: "Background",
-      placeholder: "Masukkan judul...",
-      type: "text",
+      label: 'Background',
+      placeholder: 'Masukkan judul...',
+      type: 'text',
     }),
     borderRadius: InputField({
-      label: "Input Text Here",
-      placeholder: "Masukkan judul...",
-      type: "text",
+      label: 'Input Text Here',
+      placeholder: 'Masukkan judul...',
+      type: 'text',
     }),
     padding: InputField({
-      label: "Input Text Here",
-      placeholder: "Masukkan judul...",
-      type: "number",
-    }),    
+      label: 'Input Text Here',
+      placeholder: 'Masukkan judul...',
+      type: 'number',
+    }),
   },
   defaultProps: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     borderRadius: 0,
     padding: 0,
     Content: [],
   },
   render: ({ Content, backgroundColor, borderRadius, padding }) => {
     return (
-        <div className={`${backgroundColor} ${borderRadius}`} style={{ padding: `${padding}px` }}>
+      <div
+        className={`${backgroundColor} ${borderRadius}`}
+        style={{ padding: `${padding}px` }}
+      >
         <Content />
       </div>
     );

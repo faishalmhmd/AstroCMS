@@ -1,1 +1,1 @@
-export type ComponentCategories = "layout" | "text" | "content";
+export type ComponentCategories = 'layout' | 'text' | 'content';

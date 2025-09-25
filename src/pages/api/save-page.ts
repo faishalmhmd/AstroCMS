@@ -7,10 +7,13 @@ export const POST: APIRoute = async ({ request }) => {
     const db = await getDb();
     const collection = db.collection('cms');
     const result = await collection.insertOne(data);
-    return new Response(JSON.stringify({ success: true, id: result.insertedId }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ success: true, id: result.insertedId }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } catch (error) {
     let message = 'Unknown error';
     if (error instanceof Error) {

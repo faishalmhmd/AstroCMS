@@ -1,15 +1,22 @@
-import { LayoutGrid,HeadingIcon,Cuboid,PanelLeft,Pilcrow,Columns2 } from "lucide-react";
-import React from "react";
+import {
+  LayoutGrid,
+  HeadingIcon,
+  Cuboid,
+  PanelLeft,
+  Pilcrow,
+  Columns2,
+} from 'lucide-react';
+import React from 'react';
 
 const DrawerItemIcon = ({ name }: { name: string }) => {
   return (
     <React.Fragment>
-      {name === "Grid" ? <LayoutGrid width={18} height={18}/> : null}
-      {name === "Header" ? <HeadingIcon width={18} height={18}/> : null}
-      {name === "Card" ? <Cuboid width={18} height={18}/> : null}
-      {name === "LeftSidebar" ? <PanelLeft width={18} height={18}/> : null}
-      {name === "Paragraph" ? <Pilcrow width={18} height={18}/> : null}
-      {name === "Flex" ? <Columns2 width={18} height={18}/> : null}
+      {name === 'Grid' ? <LayoutGrid width={18} height={18} /> : null}
+      {name === 'Header' ? <HeadingIcon width={18} height={18} /> : null}
+      {name === 'Card' ? <Cuboid width={18} height={18} /> : null}
+      {name === 'LeftSidebar' ? <PanelLeft width={18} height={18} /> : null}
+      {name === 'Paragraph' ? <Pilcrow width={18} height={18} /> : null}
+      {name === 'Flex' ? <Columns2 width={18} height={18} /> : null}
     </React.Fragment>
   );
 };

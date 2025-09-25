@@ -1,2 +1,2 @@
-export * from "./componentInterface";
-export * from "./componentCategories";
+export * from './componentInterface';
+export * from './componentCategories';

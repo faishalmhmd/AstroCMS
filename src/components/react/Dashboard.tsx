@@ -49,7 +49,6 @@ export default function Dashboard(): React.ReactElement {
             <span className="font-semibold text-xl">Builder</span>
           </div>
         </div>
-        
         {pages.length === 0 ? (
           <p className="text-muted-foreground dark:text-zinc-400">Tidak ada halaman ditemukan.</p>
         ) : (

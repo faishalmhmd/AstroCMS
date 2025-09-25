@@ -1,0 +1,18 @@
+---
+export const prerender = false;
+import { Editor } from '@/components/react/Editor';
+import EditLayout from '@/layouts/EditLayout.astro'
+
+const { id } = Astro.params;
+---
+
+<html>
+  <head>
+    <title>Edit Page</title>
+  </head>
+  <body>
+    <EditLayout content={{ title: "Dashboard" }}>
+      <Editor client:only="react" pageId={id} />
+    </EditLayout>
+  </body>
+</html>

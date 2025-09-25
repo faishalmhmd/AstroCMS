@@ -6,7 +6,15 @@ export const POST: APIRoute = async ({ request }) => {
     const data = await request.json();
     const db = await getDb();
     const collection = db.collection('cms');
-    const result = await collection.insertOne(data);
+
+    // Add timestamps
+    const pageData = {
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const result = await collection.insertOne(pageData);
     return new Response(
       JSON.stringify({ success: true, id: result.insertedId }),
       {

@@ -56,7 +56,6 @@ export const SelectField = <T extends string | number>(options: SelectFieldOptio
   label: options?.label ?? "Select Title",
   type: "custom" as const,
   render: (({ name, onChange, value }) => {
-    // Convert number to string because shadcn/ui Select only accepts string
     const stringValue = value !== undefined ? String(value) : "";
 
     return (
@@ -66,7 +65,7 @@ export const SelectField = <T extends string | number>(options: SelectFieldOptio
           const selected = options.options.find(opt => String(opt.value) === val);
           if (selected) onChange(selected.value);
         }}>
-          <SelectTrigger>
+          <SelectTrigger className="w-full">
             <SelectValue placeholder={options.placeholder ?? "Select..."} />
           </SelectTrigger>
           <SelectContent>

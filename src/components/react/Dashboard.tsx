@@ -194,7 +194,7 @@ export default function Dashboard(): React.ReactElement {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 h-screen p-3">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 h-screen p-3 overflow-auto">
         <div className="bg-black h-full rounded-2xl">
           {/* Topbar */}
           <div className="border-b border-zinc-300 dark:border-zinc-700 flex justify-between items-center p-4">
@@ -249,8 +249,7 @@ export default function Dashboard(): React.ReactElement {
                 Tidak ada halaman ditemukan.
               </p>
             ) : (
-              <div className="overflow-auto rounded-md border">
-                <main className="p-6 space-y-6">
+                <main className="p-6 space-y-6 overflow-auto">
                   {response && (
                     <>
                       {/* Overview Cards */}
@@ -358,9 +357,7 @@ export default function Dashboard(): React.ReactElement {
                       </Card>
                     </>
                   )}
-                </main>
-
-                <Table>
+                       <Table>
                   <TableHeader className="bg-zinc-900">
                     <TableRow>
                       <TableHead className="w-[50px]">No</TableHead>
@@ -403,7 +400,7 @@ export default function Dashboard(): React.ReactElement {
                     ))}
                   </TableBody>
                 </Table>
-              </div>
+                </main>
             )}
           </div>
         </div>

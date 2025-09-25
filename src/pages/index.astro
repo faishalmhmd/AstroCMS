@@ -1,12 +1,9 @@
 ---
 import '../styles/global.css';
-// Component Imports
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import Dashboard from '@/components/react/Dashboard';
 ---
 
-<html lang="en">
+<html lang="en" >
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -16,8 +13,8 @@ import '../styles/global.css';
 	</head>
 
 	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
+		<div class="grid place-items-center h-screen">
+			<Dashboard client:only="react"/>
 		</div>
 	</body>
 </html>

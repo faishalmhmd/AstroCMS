@@ -1,8 +1,8 @@
 ---
 import { Editor } from '@/components/react/Editor'
-import Main from '../layouts/main.astro'
+import EditLayout from '../layouts/EditLayout.astro'
 ---
 
-<Main content={{ title: "Dashboard" }}>
+<EditLayout content={{ title: "Dashboard" }}>
     <Editor client:only="react"  />
-</Main>
+</EditLayout>

@@ -3,7 +3,7 @@ import { Puck, type Config, type Data } from "@measured/puck";
 import { Header, Paragraph } from "@/components/Puck/Text";
 import { Card } from "@/components/Puck/Content";
 import { Grid, Flex, LeftSidebar } from "@/components/Puck/Layout";
-import DrawerItem from "./DrawerItem";
+import DrawerItem from "../Puck/DrawerItem";
 import React from "react";
 import type { ComponentInterface, ComponentCategories } from "@/interface";
 import axios from 'axios';

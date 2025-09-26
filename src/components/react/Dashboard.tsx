@@ -88,10 +88,8 @@ export default function Dashboard(): React.ReactElement {
   const [activeTab, setActiveTab] = useState('pages');
   const { stats, pages, setPages, serverStatus, loading, error } = useGetData();
   
-  // Use optional chaining with nullish coalescing for safe data access
   const mongoStats: ServerStatusView | null = serverStatus ?? null;
 
-  // Helper functions
   const formatBytes = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -107,13 +105,10 @@ export default function Dashboard(): React.ReactElement {
     return `${days}d ${hours}h ${mins}m`;
   };
 
-  // Helper functions with proper null checks
   const getCurrentConnections = () => mongoStats?.connections?.current ?? 0;
-  // No explicit "active" in API response; use current as a proxy
   const getActiveConnections = () => mongoStats?.connections?.current ?? 0;
   const getAvailableConnections = () => mongoStats?.connections?.available ?? 0;
   const getTotalCreated = () => mongoStats?.connections?.totalCreated ?? 0;
-  // Not provided by API; default to 0
   const getRejected = () => 0;
   const getNetworkRequests = () => mongoStats?.network?.numRequests ?? 0;
   const getPhysicalBytesIn = () => mongoStats?.network?.physicalBytesIn ?? 0;
@@ -140,7 +135,6 @@ export default function Dashboard(): React.ReactElement {
     );
   }
 
-  // Chart data with safe access
   const opCountersData: ChartDataItem[] = [
     {
       name: 'Query',

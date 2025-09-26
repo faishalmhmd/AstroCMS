@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { type ResponseReport } from '@/interface';
-import type { MongoServerStatus } from '@/interface';
+import type { ServerStatusView } from '@/interface';
 
 interface IPages<T = any> {
   _id: string;
@@ -20,7 +20,7 @@ interface IRootPages {
 
 interface UseGetDataResult {
   stats: ResponseReport | null;
-  serverStatus: MongoServerStatus | null;
+  serverStatus: ServerStatusView | null;
   pages: IPages[];
   loading: boolean;
   error: string | null;
@@ -29,7 +29,7 @@ interface UseGetDataResult {
 
 export const useGetData = (): UseGetDataResult => {
   const [stats, setStats] = useState<ResponseReport | null>(null);
-  const [serverStatus, setServerStatus] = useState<MongoServerStatus | null>(
+  const [serverStatus, setServerStatus] = useState<ServerStatusView | null>(
     null
   );
   const [pages, setPages] = useState<IPages[]>([]);

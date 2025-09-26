@@ -49,3 +49,41 @@ export interface MongoServerStatus {
     };
   };
 }
+
+// Flattened view returned by /api/get-serverStatus
+export interface ServerStatusView {
+  success?: boolean;
+  server?: {
+    host: string;
+    version: string;
+    process: string;
+    pid: number;
+    uptime: number;
+  };
+  connections?: {
+    current: number;
+    available: number;
+    totalCreated: number;
+  };
+  memory?: {
+    resident?: number;
+    virtual?: number;
+  };
+  opcounters?: {
+    insert: number;
+    query: number;
+    update: number;
+    delete: number;
+    getmore: number;
+    command: number;
+  };
+  network?: {
+    bytesIn?: number;
+    bytesOut?: number;
+    numRequests: number;
+    physicalBytesIn?: number;
+    physicalBytesOut?: number;
+  };
+  asserts?: Record<string, number>;
+  wiredTiger?: Record<string, any>;
+}

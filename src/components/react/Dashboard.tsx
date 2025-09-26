@@ -63,6 +63,7 @@ import {
   RadialBar,
 } from 'recharts';
 import { ModeToggle } from './ModeToggle';
+import type { ServerStatusView } from '@/interface';
 
 // Type definitions
 interface TabButtonProps {
@@ -85,86 +86,10 @@ interface MemoryUsageData {
 export default function Dashboard(): React.ReactElement {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('pages');
-  const { stats, pages, setPages, serverStatus } = useGetData();
-
-  console.log(serverStatus);
-
-  // MongoDB stats data with proper fallbacks
-  const mongoStats = serverStatus || {
-    success: true,
-    server: {
-      host: 'DESKTOP-RMJUA72',
-      version: '8.2.0',
-      process: 'C:\\Program Files\\MongoDB\\Server\\8.2\\bin\\mongod.exe',
-      pid: 5184,
-      uptime: 66961,
-    },
-    connections: {
-      current: 21,
-      available: 999979,
-      totalCreated: 28,
-      rejected: 0,
-      active: 4,
-      queuedForEstablishment: 0,
-      establishmentRateLimit: {
-        rejected: 0,
-        exempted: 0,
-        interruptedDueToClientDisconnect: 0,
-      },
-      threaded: 21,
-      exhaustIsMaster: 0,
-      exhaustHello: 3,
-      awaitingTopologyChanges: 3,
-      loadBalanced: 0,
-    },
-    memory: {
-      bits: 64,
-      resident: 56,
-      virtual: 4488,
-      supported: true,
-      secureAllocByteCount: 0,
-      secureAllocBytesInPages: 0,
-    },
-    opcounters: {
-      insert: 0,
-      query: 2452,
-      update: 67,
-      delete: 0,
-      getmore: 0,
-      command: 4817,
-    },
-    network: {
-      bytesIn: 1020270,
-      bytesOut: 8263763,
-      physicalBytesIn: 717028,
-      physicalBytesOut: 8263646,
-      egress: {
-        bytesIn: 0,
-        bytesOut: 0,
-        physicalBytesIn: 0,
-        physicalBytesOut: 0,
-        numRequests: 0,
-      },
-      numSlowDNSOperations: 0,
-      numSlowSSLOperations: 0,
-      numRequests: 7109,
-      tcpFastOpen: {
-        serverSupported: false,
-        clientSupported: false,
-        accepted: 0,
-      },
-    },
-    wiredTiger: {
-      'maximum bytes configured': 7733248000,
-      'bytes currently in the cache': 78937,
-      'pages currently held in the cache': 26,
-      'pages requested from the cache': 12729,
-      'pages read into cache': 36,
-      'pages written from cache': 677,
-      'bytes read into cache': 74308,
-      'bytes written from cache': 6231651,
-    },
-  };
+  const { stats, pages, setPages, serverStatus, loading, error } = useGetData();
+  
+  // Use optional chaining with nullish coalescing for safe data access
+  const mongoStats: ServerStatusView | null = serverStatus ?? null;
 
   // Helper functions
   const formatBytes = (bytes: number): string => {
@@ -182,22 +107,44 @@ export default function Dashboard(): React.ReactElement {
     return `${days}d ${hours}h ${mins}m`;
   };
 
-  const getCurrentConnections = () => mongoStats?.connections?.current || 0;
-  const getActiveConnections = () => mongoStats?.connections || 0;
-  const getAvailableConnections = () => mongoStats?.connections?.available || 0;
-  const getTotalCreated = () => mongoStats?.connections?.totalCreated || 0;
-  const getRejected = () => mongoStats?.connections || 0;
-  const getNetworkRequests = () => mongoStats?.network?.numRequests || 0;
-  const getPhysicalBytesIn = () =>
-    (mongoStats?.network as any)?.physicalBytesIn || 0;
-  const getPhysicalBytesOut = () =>
-    (mongoStats?.network as any)?.physicalBytesOut || 0;
+  // Helper functions with proper null checks
+  const getCurrentConnections = () => mongoStats?.connections?.current ?? 0;
+  // No explicit "active" in API response; use current as a proxy
+  const getActiveConnections = () => mongoStats?.connections?.current ?? 0;
+  const getAvailableConnections = () => mongoStats?.connections?.available ?? 0;
+  const getTotalCreated = () => mongoStats?.connections?.totalCreated ?? 0;
+  // Not provided by API; default to 0
+  const getRejected = () => 0;
+  const getNetworkRequests = () => mongoStats?.network?.numRequests ?? 0;
+  const getPhysicalBytesIn = () => mongoStats?.network?.physicalBytesIn ?? 0;
+  const getPhysicalBytesOut = () => mongoStats?.network?.physicalBytesOut ?? 0;
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500 text-center">
+          <h2 className="text-xl font-bold mb-2">Error Loading Data</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   // Chart data with safe access
   const opCountersData: ChartDataItem[] = [
     {
       name: 'Query',
-      value: mongoStats?.opcounters?.query || 0,
+      value: mongoStats?.opcounters?.query ?? 0,
       color: '#ffffff',
     },
     {
@@ -616,8 +563,8 @@ export default function Dashboard(): React.ReactElement {
                     </CardHeader>
                     <CardContent>
                       <div className="text-3xl font-bold text-white">
-                        {Object.values(mongoStats?.opcounters || {}).reduce(
-                          (a, b) => a + b,
+                        {Object.values(mongoStats?.opcounters ?? {}).reduce(
+                          (a: number, b: number) => a + b,
                           0
                         )}
                       </div>
@@ -637,7 +584,9 @@ export default function Dashboard(): React.ReactElement {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-3xl font-bold text-white">MB</div>
+                      <div className="text-3xl font-bold text-white">
+                        {(mongoStats?.memory?.resident ?? 0).toLocaleString()} MB
+                      </div>
                       <div className="text-zinc-400 text-sm mt-1">
                         Resident memory
                       </div>
@@ -921,33 +870,23 @@ export default function Dashboard(): React.ReactElement {
                     <CardContent className="space-y-3">
                       <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
                         <div className="text-sm text-zinc-400">Host</div>
-                        <div className="font-medium text-white"></div>
+                        <div className="font-medium text-white">{mongoStats?.server?.host ?? 'N/A'}</div>
                       </div>
                       <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
                         <div className="text-sm text-zinc-400">Version</div>
-                        <div className="font-medium text-white">MongoDB </div>
+                        <div className="font-medium text-white">MongoDB {mongoStats?.server?.version ?? 'N/A'}</div>
                       </div>
                       <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
                         <div className="text-sm text-zinc-400">Process ID</div>
-                        <div className="font-medium text-white">
-                          {mongoStats.network.bytesIn || 'N/A'}
-                        </div>
+                        <div className="font-medium text-white">{mongoStats?.server?.pid ?? 'N/A'}</div>
                       </div>
                       <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
-                        <div className="text-sm text-zinc-400">
-                          Architecture
-                        </div>
-                        <div className="font-medium text-white">
-                          {mongoStats.network.bytesIn || 64}-bit
-                        </div>
+                        <div className="text-sm text-zinc-400">Uptime</div>
+                        <div className="font-medium text-white">{mongoStats?.server?.uptime ? formatUptime(mongoStats.server.uptime) : 'N/A'}</div>
                       </div>
                       <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
-                        <div className="text-sm text-zinc-400">
-                          Virtual Memory
-                        </div>
-                        <div className="font-medium text-white">
-                          {mongoStats.network.bytesIn || 0}MB
-                        </div>
+                        <div className="text-sm text-zinc-400">Virtual Memory</div>
+                        <div className="font-medium text-white">{mongoStats?.memory?.virtual ?? 0} MB</div>
                       </div>
                     </CardContent>
                   </Card>

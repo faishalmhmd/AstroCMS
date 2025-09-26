@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,astro,mdx,css,scss,html,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,astro,mdx,css,scss,html,json,md}\""
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
@@ -22,6 +24,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",

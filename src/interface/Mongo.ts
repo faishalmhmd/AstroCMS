@@ -50,6 +50,26 @@ export interface MongoServerStatus {
   };
 }
 
+// Normalized hostInfo returned by /api/get-hostInfo
+export interface HostInfoView {
+  success?: boolean;
+  system: {
+    hostname: string;
+    currentTime?: string;
+    cpuAddrSize?: number;
+    memSizeMB?: number;
+    numCores?: number;
+    cpuArch?: string;
+    numaEnabled?: boolean;
+  };
+  os: {
+    type?: string;
+    name?: string;
+    version?: string;
+    kernelVersion?: string;
+  };
+}
+
 // Normalized currentOp item returned by /api/get-currentOp
 export interface CurrentOpItem {
   opid: string;

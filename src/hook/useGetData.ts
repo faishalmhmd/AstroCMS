@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { type ResponseReport } from '@/interface';
-import type { ServerStatusView, CurrentOpItem } from '@/interface';
+import type { ServerStatusView, CurrentOpItem, HostInfoView } from '@/interface';
 
 interface IPages<T = any> {
   _id: string;
@@ -22,6 +22,7 @@ interface UseGetDataResult {
   stats: ResponseReport | null;
   serverStatus: ServerStatusView | null;
   currentOps: CurrentOpItem[];
+  hostInfo: HostInfoView | null;
   pages: IPages[];
   loading: boolean;
   error: string | null;
@@ -35,6 +36,7 @@ export const useGetData = (): UseGetDataResult => {
   );
   const [pages, setPages] = useState<IPages[]>([]);
   const [currentOps, setCurrentOps] = useState<CurrentOpItem[]>([]);
+  const [hostInfo, setHostInfo] = useState<HostInfoView | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,11 +45,12 @@ export const useGetData = (): UseGetDataResult => {
       try {
         setLoading(true);
 
-        const [statsRes, pagesRes, serverStatusRes, currentOpRes] = await Promise.all([
+        const [statsRes, pagesRes, serverStatusRes, currentOpRes, hostInfoRes] = await Promise.all([
           axios.get('/api/get-stats'),
           axios.get('/api/get-pages'),
           axios.get('/api/get-serverStatus'),
           axios.get('/api/get-currentOp'),
+          axios.get('/api/get-hostInfo'),
         ]);
 
         if (statsRes.data.success) {
@@ -77,6 +80,12 @@ export const useGetData = (): UseGetDataResult => {
             currentOpRes.data.error || 'Gagal mengambil current operations'
           );
         }
+
+        if (hostInfoRes.data && hostInfoRes.data.system) {
+          setHostInfo(hostInfoRes.data as HostInfoView);
+        } else if (hostInfoRes.data.success === false) {
+          throw new Error(hostInfoRes.data.error || 'Gagal mengambil host info');
+        }
       } catch (err: any) {
         setError(err.message || 'Terjadi error saat fetch data');
       } finally {
@@ -87,5 +96,5 @@ export const useGetData = (): UseGetDataResult => {
     fetchData();
   }, []);
 
-  return { stats, serverStatus, currentOps, setPages, pages, loading, error };
+  return { stats, serverStatus, currentOps, hostInfo, setPages, pages, loading, error };
 };

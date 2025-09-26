@@ -86,7 +86,7 @@ interface MemoryUsageData {
 export default function Dashboard(): React.ReactElement {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('pages');
-  const { stats, pages, setPages, serverStatus, currentOps, loading, error } = useGetData();
+  const { stats, pages, setPages, serverStatus, currentOps, hostInfo, loading, error } = useGetData();
   
   const mongoStats: ServerStatusView | null = serverStatus ?? null;
 
@@ -269,6 +269,9 @@ export default function Dashboard(): React.ReactElement {
           </TabButton>
           <TabButton id="currentOps" icon={Activity}>
             Current Ops
+          </TabButton>
+          <TabButton id="hostInfo" icon={Cpu}>
+            Host Info
           </TabButton>
         </div>
       </div>
@@ -904,6 +907,58 @@ export default function Dashboard(): React.ReactElement {
                   Last updated: {new Date().toLocaleString()} • Dashboard
                   auto-refreshes every 30 seconds
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'hostInfo' && (
+              <div className="space-y-6">
+                <Card className="bg-zinc-900 border-zinc-800">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-white">Host Information</CardTitle>
+                      <Badge variant="secondary" className="bg-zinc-800 text-white border-zinc-700">
+                        {hostInfo?.system?.hostname ?? 'unknown'}
+                      </Badge>
+                    </div>
+                    <CardDescription className="text-zinc-400">
+                      OS and hardware details from MongoDB hostInfo
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">Hostname</div>
+                      <div className="font-medium text-white">{hostInfo?.system?.hostname ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">Current Time</div>
+                      <div className="font-medium text-white">{hostInfo?.system?.currentTime ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">CPU Arch</div>
+                      <div className="font-medium text-white">{hostInfo?.system?.cpuArch ?? hostInfo?.os?.type ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">CPU Cores</div>
+                      <div className="font-medium text-white">{hostInfo?.system?.numCores ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">Memory (MB)</div>
+                      <div className="font-medium text-white">{hostInfo?.system?.memSizeMB ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">OS</div>
+                      <div className="font-medium text-white">{hostInfo?.os?.name ?? hostInfo?.os?.type ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">OS Version</div>
+                      <div className="font-medium text-white">{hostInfo?.os?.version ?? 'N/A'}</div>
+                    </div>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
+                      <div className="text-sm text-zinc-400">Kernel Version</div>
+                      <div className="font-medium text-white">{hostInfo?.os?.kernelVersion ?? 'N/A'}</div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             )}
 

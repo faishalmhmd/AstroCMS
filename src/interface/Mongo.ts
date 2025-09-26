@@ -50,6 +50,23 @@ export interface MongoServerStatus {
   };
 }
 
+// Normalized currentOp item returned by /api/get-currentOp
+export interface CurrentOpItem {
+  opid: string;
+  ns: string; // namespace db.collection
+  desc: string;
+  client: string;
+  appName: string;
+  active: boolean;
+  waitingForLock: boolean;
+  secs_running: number;
+  microsecs_running: number;
+  command: Record<string, any>;
+  planSummary: string;
+  locks: Record<string, any>;
+  type: string;
+}
+
 // Flattened view returned by /api/get-serverStatus
 export interface ServerStatusView {
   success?: boolean;

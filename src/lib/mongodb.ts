@@ -29,3 +29,8 @@ export async function getDb() {
   const client = await clientPromise;
   return client.db(dbName);
 }
+
+export async function getAdminDb() {
+  const client = await clientPromise;
+  return client.db('admin');
+}

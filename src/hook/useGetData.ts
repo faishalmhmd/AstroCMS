@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { type ResponseReport } from '@/interface';
-import type { ServerStatusView } from '@/interface';
+import type { ServerStatusView, CurrentOpItem } from '@/interface';
 
 interface IPages<T = any> {
   _id: string;
@@ -21,6 +21,7 @@ interface IRootPages {
 interface UseGetDataResult {
   stats: ResponseReport | null;
   serverStatus: ServerStatusView | null;
+  currentOps: CurrentOpItem[];
   pages: IPages[];
   loading: boolean;
   error: string | null;
@@ -33,6 +34,7 @@ export const useGetData = (): UseGetDataResult => {
     null
   );
   const [pages, setPages] = useState<IPages[]>([]);
+  const [currentOps, setCurrentOps] = useState<CurrentOpItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,10 +43,11 @@ export const useGetData = (): UseGetDataResult => {
       try {
         setLoading(true);
 
-        const [statsRes, pagesRes, serverStatusRes] = await Promise.all([
+        const [statsRes, pagesRes, serverStatusRes, currentOpRes] = await Promise.all([
           axios.get('/api/get-stats'),
           axios.get('/api/get-pages'),
           axios.get('/api/get-serverStatus'),
+          axios.get('/api/get-currentOp'),
         ]);
 
         if (statsRes.data.success) {
@@ -66,6 +69,14 @@ export const useGetData = (): UseGetDataResult => {
             serverStatusRes.data.error || 'Gagal mengambil server status'
           );
         }
+
+        if (currentOpRes.data.success) {
+          setCurrentOps(currentOpRes.data.operations as CurrentOpItem[]);
+        } else {
+          throw new Error(
+            currentOpRes.data.error || 'Gagal mengambil current operations'
+          );
+        }
       } catch (err: any) {
         setError(err.message || 'Terjadi error saat fetch data');
       } finally {
@@ -76,5 +87,5 @@ export const useGetData = (): UseGetDataResult => {
     fetchData();
   }, []);
 
-  return { stats, serverStatus, setPages, pages, loading, error };
+  return { stats, serverStatus, currentOps, setPages, pages, loading, error };
 };

@@ -86,7 +86,7 @@ interface MemoryUsageData {
 export default function Dashboard(): React.ReactElement {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('pages');
-  const { stats, pages, setPages, serverStatus, loading, error } = useGetData();
+  const { stats, pages, setPages, serverStatus, currentOps, loading, error } = useGetData();
   
   const mongoStats: ServerStatusView | null = serverStatus ?? null;
 
@@ -103,6 +103,16 @@ export default function Dashboard(): React.ReactElement {
     const hours = Math.floor((seconds % 86400) / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     return `${days}d ${hours}h ${mins}m`;
+  };
+
+  const formatSecs = (secs: number): string => {
+    if (!secs || secs < 60) return `${secs | 0}s`;
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    if (m < 60) return `${m}m ${s}s`;
+    const h = Math.floor(m / 60);
+    const mm = m % 60;
+    return `${h}h ${mm}m`;
   };
 
   const getCurrentConnections = () => mongoStats?.connections?.current ?? 0;
@@ -256,6 +266,9 @@ export default function Dashboard(): React.ReactElement {
           </TabButton>
           <TabButton id="mongodb" icon={Database}>
             MongoDB
+          </TabButton>
+          <TabButton id="currentOps" icon={Activity}>
+            Current Ops
           </TabButton>
         </div>
       </div>
@@ -891,6 +904,64 @@ export default function Dashboard(): React.ReactElement {
                   Last updated: {new Date().toLocaleString()} • Dashboard
                   auto-refreshes every 30 seconds
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'currentOps' && (
+              <div className="space-y-6">
+                <Card className="bg-zinc-900 border-zinc-800">
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <div>
+                      <CardTitle className="text-white">Current Operations</CardTitle>
+                      <CardDescription className="text-zinc-400">
+                        Live operations from MongoDB currentOp command
+                      </CardDescription>
+                    </div>
+                    <Badge variant="secondary" className="bg-zinc-800 text-white border-zinc-700">
+                      {currentOps.length.toLocaleString()} ops
+                    </Badge>
+                  </CardHeader>
+                  <CardContent>
+                    {currentOps.length === 0 ? (
+                      <p className="text-sm text-zinc-400">No active operations.</p>
+                    ) : (
+                      <div className="rounded-md border border-zinc-700 overflow-auto">
+                        <Table>
+                          <TableHeader className="bg-zinc-900">
+                            <TableRow>
+                              <TableHead className="text-zinc-300">OpID</TableHead>
+                              <TableHead className="text-zinc-300">Namespace</TableHead>
+                              <TableHead className="text-zinc-300">Type</TableHead>
+                              <TableHead className="text-zinc-300">Active</TableHead>
+                              <TableHead className="text-zinc-300">Waiting</TableHead>
+                              <TableHead className="text-zinc-300">Runtime</TableHead>
+                              <TableHead className="text-zinc-300">Client</TableHead>
+                              <TableHead className="text-zinc-300">App</TableHead>
+                              <TableHead className="text-right text-zinc-300">Desc / Command</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {currentOps.map((op) => (
+                              <TableRow key={op.opid} className="border-zinc-700">
+                                <TableCell className="text-zinc-300">{op.opid}</TableCell>
+                                <TableCell className="text-zinc-300">{op.ns}</TableCell>
+                                <TableCell className="text-zinc-300">{op.type}</TableCell>
+                                <TableCell className="text-zinc-300">{op.active ? 'Yes' : 'No'}</TableCell>
+                                <TableCell className="text-zinc-300">{op.waitingForLock ? 'Yes' : 'No'}</TableCell>
+                                <TableCell className="text-zinc-300">{formatSecs(op.secs_running)}</TableCell>
+                                <TableCell className="text-zinc-300">{op.client}</TableCell>
+                                <TableCell className="text-zinc-300">{op.appName}</TableCell>
+                                <TableCell className="text-right text-zinc-300 max-w-[420px] truncate">
+                                  {op.desc}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
               </div>
             )}
           </div>

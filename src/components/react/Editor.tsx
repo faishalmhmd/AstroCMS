@@ -62,13 +62,11 @@ export function Editor({ pageId }: EditorProps): React.ReactElement {
         console.log('✅ Page loaded successfully');
       } else {
         console.error('❌ Failed to load page:', response.data.error);
-        // If page not found, create new one
         setData(initialData);
         setIsEditMode(false);
       }
     } catch (error: any) {
       console.error('❌ Error loading page:', error.message || error);
-      // Fallback to create mode
       setData(initialData);
       setIsEditMode(false);
     } finally {
@@ -83,7 +81,6 @@ export function Editor({ pageId }: EditorProps): React.ReactElement {
       let response;
 
       if (isEditMode && pageId) {
-        // Update existing page
         response = await axios.put(`/api/update-page/${pageId}`, pageData);
         if (response.data.success) {
           console.log('✅ Page updated successfully');
@@ -91,13 +88,10 @@ export function Editor({ pageId }: EditorProps): React.ReactElement {
           console.error('❌ Failed to update page:', response.data.error);
         }
       } else {
-        // Create new page
-        response = await axios.post('/api/save-page', pageData);
+        response = await axios.post('/api/pages/create-pages', pageData);
         if (response.data.success) {
           console.log('✅ Page created successfully. ID:', response.data.id);
-          // Switch to edit mode with the new ID
           setIsEditMode(true);
-          // Optionally update URL without page reload
           window.history.pushState({}, '', `/edit/${response.data.id}`);
         } else {
           console.error('❌ Failed to create page:', response.data.error);

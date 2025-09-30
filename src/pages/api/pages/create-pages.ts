@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getDb } from '../../lib/mongodb';
+import { getDb } from '@/lib/mongodb';
 
 export const POST: APIRoute = async ({ request }) => {
   try {

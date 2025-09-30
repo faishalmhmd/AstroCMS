@@ -53,15 +53,21 @@ export const useGetData = (): UseGetDataResult => {
       try {
         setLoading(true);
 
-        const [statsRes, pagesRes, serverStatusRes, currentOpRes, hostInfoRes, projectsRes] =
-          await Promise.all([
-            axios.get('/api/get-stats'),
-            axios.get('/api/get-pages'),
-            axios.get('/api/get-serverStatus'),
-            axios.get('/api/get-currentOp'),
-            axios.get('/api/get-hostInfo'),
-            axios.get('/api/get-projects'),
-          ]);
+        const [
+          statsRes,
+          pagesRes,
+          serverStatusRes,
+          currentOpRes,
+          hostInfoRes,
+          projectsRes,
+        ] = await Promise.all([
+          axios.get('/api/get-stats'),
+          axios.get('/api/get-pages'),
+          axios.get('/api/get-serverStatus'),
+          axios.get('/api/get-currentOp'),
+          axios.get('/api/get-hostInfo'),
+          axios.get('/api/get-projects'),
+        ]);
 
         if (statsRes.data.success) {
           setStats(statsRes.data.stats);
@@ -126,5 +132,4 @@ export const useGetData = (): UseGetDataResult => {
     loading,
     error,
   };
-}
-
+};

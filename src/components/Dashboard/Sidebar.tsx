@@ -28,11 +28,14 @@ interface SidebarProps {
   onChange: (id: string) => void;
 }
 
-export default function Sidebar({ active, onChange }: SidebarProps): React.ReactElement {
+export default function Sidebar({
+  active,
+  onChange,
+}: SidebarProps): React.ReactElement {
   return (
-    <aside className="hidden md:flex h-screen w-64 flex-col border-r border-zinc-800 bg-zinc-950 text-zinc-200">
-      <div className="flex h-14 items-center gap-2 px-4 border-b border-zinc-800">
-        <Blocks className="h-4 w-4" />
+    <aside className="hidden md:flex h-screen w-64 flex-col border-r  bg-neutral-50 dark:bg-neutral-900  dark:text-white text-black">
+      <div className="flex h-12 items-center gap-2 px-4 border-b border-zinc-800">
+        <Blocks className="h-6 w-6" />
         <span className="font-semibold">Builder</span>
       </div>
       <nav className="flex-1 overflow-y-auto p-2">
@@ -44,10 +47,10 @@ export default function Sidebar({ active, onChange }: SidebarProps): React.React
                 <button
                   onClick={() => onChange(id)}
                   className={cn(
-                    'w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
+                    'w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors cursor-pointer',
                     isActive
-                      ? 'bg-zinc-800 text-white'
-                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
+                      ? 'dark:bg-zinc-800 bg-neutral-50 dark:text-white text-black'
+                      : 'dark:text-zinc-400 dark:hover:text-white'
                   )}
                 >
                   <Icon className="h-4 w-4" />

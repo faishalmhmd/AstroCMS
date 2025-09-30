@@ -41,7 +41,9 @@ interface MongoDBProps {
   serverStatus: ServerStatusView | null;
 }
 
-export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactElement {
+export default function MongoDBTab({
+  serverStatus,
+}: MongoDBProps): React.ReactElement {
   const mongoStats: ServerStatusView | null = serverStatus ?? null;
 
   const getCurrentConnections = () => mongoStats?.connections?.current ?? 0;
@@ -52,23 +54,52 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
   const getPhysicalBytesOut = () => mongoStats?.network?.physicalBytesOut ?? 0;
 
   const opCountersData: ChartDataItem[] = [
-    { name: 'Query', value: mongoStats?.opcounters?.query ?? 0, color: '#ffffff' },
-    { name: 'Command', value: mongoStats?.opcounters?.command || 0, color: '#a1a1aa' },
-    { name: 'Update', value: mongoStats?.opcounters?.update || 0, color: '#71717a' },
-    { name: 'Insert', value: mongoStats?.opcounters?.insert || 0, color: '#52525b' },
-    { name: 'Delete', value: mongoStats?.opcounters?.delete || 0, color: '#3f3f46' },
+    {
+      name: 'Query',
+      value: mongoStats?.opcounters?.query ?? 0,
+      color: '#ffffff',
+    },
+    {
+      name: 'Command',
+      value: mongoStats?.opcounters?.command || 0,
+      color: '#a1a1aa',
+    },
+    {
+      name: 'Update',
+      value: mongoStats?.opcounters?.update || 0,
+      color: '#71717a',
+    },
+    {
+      name: 'Insert',
+      value: mongoStats?.opcounters?.insert || 0,
+      color: '#52525b',
+    },
+    {
+      name: 'Delete',
+      value: mongoStats?.opcounters?.delete || 0,
+      color: '#3f3f46',
+    },
   ];
 
   const networkData: ChartDataItem[] = [
-    { name: 'Bytes In', value: mongoStats?.network?.bytesIn || 0, color: '#ffffff' },
-    { name: 'Bytes Out', value: mongoStats?.network?.bytesOut || 0, color: '#a1a1aa' },
+    {
+      name: 'Bytes In',
+      value: mongoStats?.network?.bytesIn || 0,
+      color: '#ffffff',
+    },
+    {
+      name: 'Bytes Out',
+      value: mongoStats?.network?.bytesOut || 0,
+      color: '#a1a1aa',
+    },
     { name: 'Physical In', value: getPhysicalBytesIn(), color: '#71717a' },
     { name: 'Physical Out', value: getPhysicalBytesOut(), color: '#52525b' },
   ];
 
   const getCacheUsagePercentage = (): number => {
     if (!mongoStats?.wiredTiger) return 0;
-    const current = (mongoStats.wiredTiger as any)['bytes currently in the cache'] || 0;
+    const current =
+      (mongoStats.wiredTiger as any)['bytes currently in the cache'] || 0;
     const max = (mongoStats.wiredTiger as any)['maximum bytes configured'] || 1;
     return (current / max) * 100;
   };
@@ -89,10 +120,13 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white"></h2>
-                <p className="text-zinc-400">MongoDB v• Running for{' '}</p>
+                <p className="text-zinc-400">MongoDB v• Running for </p>
               </div>
             </div>
-            <Badge variant="secondary" className="bg-zinc-800 text-white border-zinc-700">
+            <Badge
+              variant="secondary"
+              className="bg-zinc-800 text-white border-zinc-700"
+            >
               Online
             </Badge>
           </div>
@@ -109,7 +143,9 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">{getCurrentConnections()}</div>
+            <div className="text-3xl font-bold text-white">
+              {getCurrentConnections()}
+            </div>
             <div className="text-zinc-400 text-sm mt-1">available</div>
           </CardContent>
         </Card>
@@ -123,7 +159,10 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-white">
-              {Object.values(mongoStats?.opcounters ?? {}).reduce((a: number, b: number) => a + b, 0)}
+              {Object.values(mongoStats?.opcounters ?? {}).reduce(
+                (a: number, b: number) => a + b,
+                0
+              )}
             </div>
             <div className="text-zinc-400 text-sm mt-1">Total operations</div>
           </CardContent>
@@ -152,7 +191,9 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">{getNetworkRequests()}</div>
+            <div className="text-3xl font-bold text-white">
+              {getNetworkRequests()}
+            </div>
             <div className="text-zinc-400 text-sm mt-1">Total requests</div>
           </CardContent>
         </Card>
@@ -188,7 +229,10 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value, name) => [Number(value).toLocaleString(), name]}
+                  formatter={(value, name) => [
+                    Number(value).toLocaleString(),
+                    name,
+                  ]}
                   contentStyle={{
                     backgroundColor: '#18181b',
                     border: '1px solid #3f3f46',
@@ -201,7 +245,10 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
             <div className="grid grid-cols-2 gap-2 mt-4">
               {opCountersData.map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  />
                   <span className="text-sm text-zinc-300">
                     {item.name}: {item.value.toLocaleString()}
                   </span>
@@ -218,14 +265,25 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               <Network className="h-5 w-5 text-zinc-400" />
               Network Traffic
             </CardTitle>
-            <CardDescription className="text-zinc-400">Data transfer statistics</CardDescription>
+            <CardDescription className="text-zinc-400">
+              Data transfer statistics
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={networkData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={networkData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
-                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#a1a1aa' }} />
-                <YAxis tickFormatter={formatBytes} tick={{ fontSize: 12, fill: '#a1a1aa' }} />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 12, fill: '#a1a1aa' }}
+                />
+                <YAxis
+                  tickFormatter={formatBytes}
+                  tick={{ fontSize: 12, fill: '#a1a1aa' }}
+                />
                 <Tooltip
                   formatter={(value) => formatBytes(Number(value))}
                   contentStyle={{
@@ -255,31 +313,50 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               <Cpu className="h-5 w-5 text-zinc-400" />
               Cache Performance
             </CardTitle>
-            <CardDescription className="text-zinc-400">WiredTiger cache statistics</CardDescription>
+            <CardDescription className="text-zinc-400">
+              WiredTiger cache statistics
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <div className="flex justify-between text-sm mb-1 text-zinc-300">
                 <span>Cache Usage</span>
                 <span>
-                  {formatBytes(((mongoStats?.wiredTiger as any)?.['bytes currently in the cache'] || 0))}
-                  {' '} /
-                  {formatBytes(((mongoStats?.wiredTiger as any)?.['maximum bytes configured'] || 1))}
+                  {formatBytes(
+                    (mongoStats?.wiredTiger as any)?.[
+                      'bytes currently in the cache'
+                    ] || 0
+                  )}{' '}
+                  /
+                  {formatBytes(
+                    (mongoStats?.wiredTiger as any)?.[
+                      'maximum bytes configured'
+                    ] || 1
+                  )}
                 </span>
               </div>
-              <Progress value={getCacheUsagePercentage()} className="h-2 bg-zinc-800" />
+              <Progress
+                value={getCacheUsagePercentage()}
+                className="h-2 bg-zinc-800"
+              />
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-zinc-400">Pages in Cache</span>
                 <span className="font-medium text-white">
-                  {(mongoStats?.wiredTiger as any)?.['pages currently held in the cache'] || 0}
+                  {(mongoStats?.wiredTiger as any)?.[
+                    'pages currently held in the cache'
+                  ] || 0}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Cache Requests</span>
                 <span className="font-medium text-white">
-                  {(((mongoStats?.wiredTiger as any)?.['pages requested from the cache'] || 0) as number).toLocaleString()}
+                  {(
+                    ((mongoStats?.wiredTiger as any)?.[
+                      'pages requested from the cache'
+                    ] || 0) as number
+                  ).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -305,18 +382,26 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               <Users className="h-5 w-5 text-zinc-400" />
               Connection Details
             </CardTitle>
-            <CardDescription className="text-zinc-400">Active connection monitoring</CardDescription>
+            <CardDescription className="text-zinc-400">
+              Active connection monitoring
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={200}>
-              <RadialBarChart innerRadius="30%" outerRadius="90%" data={memoryUsage}>
+              <RadialBarChart
+                innerRadius="30%"
+                outerRadius="90%"
+                data={memoryUsage}
+              >
                 <RadialBar dataKey="value" cornerRadius={10} fill="#ffffff" />
               </RadialBarChart>
             </ResponsiveContainer>
             <div className="space-y-2 text-sm mt-4">
               <div className="flex justify-between">
                 <span className="text-zinc-400">Current Connections</span>
-                <span className="font-medium text-white">{getCurrentConnections()}</span>
+                <span className="font-medium text-white">
+                  {getCurrentConnections()}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Active Connections</span>
@@ -324,7 +409,9 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Total Created</span>
-                <span className="font-medium text-white">{getTotalCreated()}</span>
+                <span className="font-medium text-white">
+                  {getTotalCreated()}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Rejected</span>
@@ -332,7 +419,9 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Available</span>
-                <span className="font-medium text-white">{getAvailableConnections().toLocaleString()}</span>
+                <span className="font-medium text-white">
+                  {getAvailableConnections().toLocaleString()}
+                </span>
               </div>
             </div>
           </CardContent>
@@ -345,30 +434,42 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
               <Server className="h-5 w-5 text-zinc-400" />
               System Information
             </CardTitle>
-            <CardDescription className="text-zinc-400">Server configuration details</CardDescription>
+            <CardDescription className="text-zinc-400">
+              Server configuration details
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
               <div className="text-sm text-zinc-400">Host</div>
-              <div className="font-medium text-white">{mongoStats?.server?.host ?? 'N/A'}</div>
+              <div className="font-medium text-white">
+                {mongoStats?.server?.host ?? 'N/A'}
+              </div>
             </div>
             <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
               <div className="text-sm text-zinc-400">Version</div>
-              <div className="font-medium text-white">MongoDB {mongoStats?.server?.version ?? 'N/A'}</div>
+              <div className="font-medium text-white">
+                MongoDB {mongoStats?.server?.version ?? 'N/A'}
+              </div>
             </div>
             <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
               <div className="text-sm text-zinc-400">Process ID</div>
-              <div className="font-medium text-white">{mongoStats?.server?.pid ?? 'N/A'}</div>
+              <div className="font-medium text-white">
+                {mongoStats?.server?.pid ?? 'N/A'}
+              </div>
             </div>
             <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
               <div className="text-sm text-zinc-400">Uptime</div>
               <div className="font-medium text-white">
-                {mongoStats?.server?.uptime ? formatUptime(mongoStats.server.uptime) : 'N/A'}
+                {mongoStats?.server?.uptime
+                  ? formatUptime(mongoStats.server.uptime)
+                  : 'N/A'}
               </div>
             </div>
             <div className="p-3 bg-zinc-800 rounded-lg border border-zinc-700">
               <div className="text-sm text-zinc-400">Virtual Memory</div>
-              <div className="font-medium text-white">{mongoStats?.memory?.virtual ?? 0} MB</div>
+              <div className="font-medium text-white">
+                {mongoStats?.memory?.virtual ?? 0} MB
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -376,7 +477,8 @@ export default function MongoDBTab({ serverStatus }: MongoDBProps): React.ReactE
 
       {/* Footer */}
       <div className="text-center text-sm text-zinc-500 mt-8">
-        Last updated: {new Date().toLocaleString()} • Dashboard auto-refreshes every 30 seconds
+        Last updated: {new Date().toLocaleString()} • Dashboard auto-refreshes
+        every 30 seconds
       </div>
     </div>
   );

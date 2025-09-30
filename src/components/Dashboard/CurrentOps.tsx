@@ -33,7 +33,9 @@ interface CurrentOpsProps {
   currentOps: CurrentOpItem[];
 }
 
-export default function CurrentOpsTab({ currentOps }: CurrentOpsProps): React.ReactElement {
+export default function CurrentOpsTab({
+  currentOps,
+}: CurrentOpsProps): React.ReactElement {
   return (
     <div className="space-y-6">
       <Card className="bg-zinc-900 border-zinc-800">
@@ -44,7 +46,10 @@ export default function CurrentOpsTab({ currentOps }: CurrentOpsProps): React.Re
               Live operations from MongoDB currentOp command
             </CardDescription>
           </div>
-          <Badge variant="secondary" className="bg-zinc-800 text-white border-zinc-700">
+          <Badge
+            variant="secondary"
+            className="bg-zinc-800 text-white border-zinc-700"
+          >
             {currentOps.length.toLocaleString()} ops
           </Badge>
         </CardHeader>
@@ -64,7 +69,9 @@ export default function CurrentOpsTab({ currentOps }: CurrentOpsProps): React.Re
                     <TableHead className="text-zinc-300">Runtime</TableHead>
                     <TableHead className="text-zinc-300">Client</TableHead>
                     <TableHead className="text-zinc-300">App</TableHead>
-                    <TableHead className="text-right text-zinc-300">Desc / Command</TableHead>
+                    <TableHead className="text-right text-zinc-300">
+                      Desc / Command
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -73,12 +80,24 @@ export default function CurrentOpsTab({ currentOps }: CurrentOpsProps): React.Re
                       <TableCell className="text-zinc-300">{op.opid}</TableCell>
                       <TableCell className="text-zinc-300">{op.ns}</TableCell>
                       <TableCell className="text-zinc-300">{op.type}</TableCell>
-                      <TableCell className="text-zinc-300">{op.active ? 'Yes' : 'No'}</TableCell>
-                      <TableCell className="text-zinc-300">{op.waitingForLock ? 'Yes' : 'No'}</TableCell>
-                      <TableCell className="text-zinc-300">{formatSecs(op.secs_running || 0)}</TableCell>
-                      <TableCell className="text-zinc-300">{op.client}</TableCell>
-                      <TableCell className="text-zinc-300">{op.appName}</TableCell>
-                      <TableCell className="text-right text-zinc-300 max-w-[420px] truncate">{op.desc}</TableCell>
+                      <TableCell className="text-zinc-300">
+                        {op.active ? 'Yes' : 'No'}
+                      </TableCell>
+                      <TableCell className="text-zinc-300">
+                        {op.waitingForLock ? 'Yes' : 'No'}
+                      </TableCell>
+                      <TableCell className="text-zinc-300">
+                        {formatSecs(op.secs_running || 0)}
+                      </TableCell>
+                      <TableCell className="text-zinc-300">
+                        {op.client}
+                      </TableCell>
+                      <TableCell className="text-zinc-300">
+                        {op.appName}
+                      </TableCell>
+                      <TableCell className="text-right text-zinc-300 max-w-[420px] truncate">
+                        {op.desc}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { type ResponseReport } from '@/interface';
-import type { ServerStatusView, CurrentOpItem, HostInfoView } from '@/interface';
+import type {
+  ServerStatusView,
+  CurrentOpItem,
+  HostInfoView,
+  IProject,
+} from '@/interface';
 
 interface IPages<T = any> {
   _id: string;
@@ -24,9 +29,11 @@ interface UseGetDataResult {
   currentOps: CurrentOpItem[];
   hostInfo: HostInfoView | null;
   pages: IPages[];
+  projects: IProject[];
   loading: boolean;
   error: string | null;
   setPages: React.Dispatch<React.SetStateAction<IPages[]>>;
+  setProjects: React.Dispatch<React.SetStateAction<IProject[]>>;
 }
 
 export const useGetData = (): UseGetDataResult => {
@@ -35,6 +42,7 @@ export const useGetData = (): UseGetDataResult => {
     null
   );
   const [pages, setPages] = useState<IPages[]>([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
   const [currentOps, setCurrentOps] = useState<CurrentOpItem[]>([]);
   const [hostInfo, setHostInfo] = useState<HostInfoView | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,13 +53,15 @@ export const useGetData = (): UseGetDataResult => {
       try {
         setLoading(true);
 
-        const [statsRes, pagesRes, serverStatusRes, currentOpRes, hostInfoRes] = await Promise.all([
-          axios.get('/api/get-stats'),
-          axios.get('/api/get-pages'),
-          axios.get('/api/get-serverStatus'),
-          axios.get('/api/get-currentOp'),
-          axios.get('/api/get-hostInfo'),
-        ]);
+        const [statsRes, pagesRes, serverStatusRes, currentOpRes, hostInfoRes, projectsRes] =
+          await Promise.all([
+            axios.get('/api/get-stats'),
+            axios.get('/api/get-pages'),
+            axios.get('/api/get-serverStatus'),
+            axios.get('/api/get-currentOp'),
+            axios.get('/api/get-hostInfo'),
+            axios.get('/api/get-projects'),
+          ]);
 
         if (statsRes.data.success) {
           setStats(statsRes.data.stats);
@@ -84,7 +94,15 @@ export const useGetData = (): UseGetDataResult => {
         if (hostInfoRes.data && hostInfoRes.data.system) {
           setHostInfo(hostInfoRes.data as HostInfoView);
         } else if (hostInfoRes.data.success === false) {
-          throw new Error(hostInfoRes.data.error || 'Gagal mengambil host info');
+          throw new Error(
+            hostInfoRes.data.error || 'Gagal mengambil host info'
+          );
+        }
+
+        if (projectsRes.data.success) {
+          setProjects(projectsRes.data.projects as IProject[]);
+        } else if (projectsRes.data.success === false) {
+          throw new Error(projectsRes.data.error || 'Gagal mengambil projects');
         }
       } catch (err: any) {
         setError(err.message || 'Terjadi error saat fetch data');
@@ -96,5 +114,17 @@ export const useGetData = (): UseGetDataResult => {
     fetchData();
   }, []);
 
-  return { stats, serverStatus, currentOps, hostInfo, setPages, pages, loading, error };
-};
+  return {
+    stats,
+    serverStatus,
+    currentOps,
+    hostInfo,
+    setPages,
+    pages,
+    projects,
+    setProjects,
+    loading,
+    error,
+  };
+}
+

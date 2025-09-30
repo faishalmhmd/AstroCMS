@@ -13,7 +13,8 @@ export const GET: APIRoute = async () => {
         hostname: raw?.system?.hostname ?? raw?.hostname ?? 'unknown',
         currentTime: raw?.system?.currentTime ?? raw?.system?.currentTimeStr,
         cpuAddrSize: raw?.system?.cpuAddrSize,
-        memSizeMB: raw?.system?.memSizeMB ?? (raw?.system?.memSizeMBs ?? undefined),
+        memSizeMB:
+          raw?.system?.memSizeMB ?? raw?.system?.memSizeMBs ?? undefined,
         numCores: raw?.os?.numCores ?? raw?.system?.numCores,
         cpuArch: raw?.system?.cpuArch ?? raw?.os?.arch,
         numaEnabled: raw?.system?.numaEnabled,
@@ -35,9 +36,9 @@ export const GET: APIRoute = async () => {
     if (error instanceof Error) message = error.message;
 
     console.error('❌ Error fetching hostInfo:', error);
-    return new Response(
-      JSON.stringify({ success: false, error: message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ success: false, error: message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 };

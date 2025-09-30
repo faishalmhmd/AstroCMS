@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGetData } from '@/hook/useGetData';
 import { ModeToggle } from './ModeToggle';
 import Pages from '../Dashboard/Pages';
+import MainDashboard from '../Dashboard/Dashboard'
 import MongoDBTab from '../Dashboard/MongoDB';
 import HostInfoTab from '../Dashboard/HostInfo';
 import CurrentOpsTab from '../Dashboard/CurrentOps';
@@ -10,7 +11,7 @@ import TopbarProfile from '../Dashboard/TopbarProfile';
 import Sidebar from '../Dashboard/Sidebar';
 
 export default function Dashboard(): React.ReactElement {
-  const [activeTab, setActiveTab] = useState('pages');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const {
     pages,
     projects,
@@ -65,6 +66,7 @@ export default function Dashboard(): React.ReactElement {
           </div>
           {/* Page Content */}
           <div className="flex-1 overflow-auto no-scrollbar p-6">
+            {activeTab === 'dashboard' && <MainDashboard serverStatus={serverStatus} />}
             {activeTab === 'pages' && <Pages pages={pages} />}
             {activeTab === 'projects' && (
               <Projects projects={projects} setProjects={setProjects} />

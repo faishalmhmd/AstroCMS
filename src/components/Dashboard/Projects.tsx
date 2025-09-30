@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import {
   Dialog,
   DialogClose,
@@ -20,7 +21,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { FilePlus, Pencil, Trash2 } from 'lucide-react';
+import { FilePlus, Pencil, Trash2, Package, Hammer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 
@@ -28,6 +29,7 @@ export type ProjectItem = {
   _id: string;
   name?: string;
   slug?: string;
+  status?: string;
   description?: string;
   updatedAt?: string;
 };
@@ -39,17 +41,17 @@ interface ProjectsProps {
 
 export default function Projects({ projects, setProjects }: ProjectsProps) {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", slug: "", description: "" });
+  const [form, setForm] = useState({ name: "", slug: "", description: "",status: "new"});
 
   const refresh = async () => {
-    const res = await axios.get('/api/projects/index');
+    const res = await axios.get('/api/projects');
     if (res.data?.success) setProjects(res.data.projects);
   };
 
   const onCreate = async () => {
     if (!form.name.trim()) return;
-    await axios.post('/api/projects/index', { ...form });
-    setForm({ name: "", slug: "", description: "" });
+    await axios.post('/api/projects', { ...form });
+    setForm({ name: "", slug: "", description: "", status:"new"});
     setOpen(false);
     await refresh();
   };
@@ -147,20 +149,40 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
                   <TableHead className="text-zinc-300">Name</TableHead>
                   <TableHead className="text-zinc-300">Slug</TableHead>
                   <TableHead className="text-zinc-300">ID</TableHead>
+                  <TableHead className="text-zinc-300">Status Project</TableHead>
                   <TableHead className="text-zinc-300">Updated At</TableHead>
                   <TableHead className="text-right text-zinc-300">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {projects.map((p, idx) => (
-                  <TableRow key={p._id} className="border-zinc-700">
+                  <TableRow key={p._id} className="border">
                     <TableCell className="text-zinc-300">{idx + 1}</TableCell>
                     <TableCell className="text-zinc-300">{p.name || '-'}</TableCell>
-                    <TableCell className="text-zinc-300">{p.slug || '-'}</TableCell>
-                    <TableCell className="text-zinc-300">{p._id}</TableCell>
+                    <TableCell className="text-zinc-300"> 
+                      <Badge variant="outline">{p.slug || '-'}</Badge>
+                    </TableCell>
+                    <TableCell className="text-zinc-300 uppercase">{p._id}</TableCell>
+                    <TableCell className="text-zinc-300">
+                      <Badge variant="outline">✅ New </Badge>
+                    </TableCell>
                     <TableCell className="text-zinc-300">{p.updatedAt || '-'}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="border text-zinc-300 hover:bg-zinc-800"
+                        >
+                          <Hammer className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="border text-zinc-300 hover:bg-zinc-800"
+                        >
+                          <Package className="h-4 w-4" />
+                        </Button>
                         <Button
                           variant="outline"
                           size="icon"

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  FileText,
-  FileWarning,
-  FileCheck,
-  FilePlus,
   Pencil,
   Trash2,
 } from 'lucide-react';
@@ -45,7 +41,7 @@ export default function Pages({ pages }: PagesProps) {
     if (!confirmed) return;
 
     try {
-      const res = await axios.delete(`/api/deleted-page/${id}`);
+      const res = await axios.delete(`/api/pages/delete-page/${id}`);
       if (res.data?.success) {
         setLocalPages((prev) => prev.filter((p) => p._id !== id));
       } else {
@@ -92,6 +88,7 @@ export default function Pages({ pages }: PagesProps) {
                   {page.updatedAt || '-'}
                 </TableCell>
                 <TableCell className="flex justify-end gap-3">
+
                   <Button
                     variant="outline"
                     size="icon"

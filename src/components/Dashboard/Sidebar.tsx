@@ -6,6 +6,7 @@ import {
   FilePlus,
   Database,
   Activity,
+  Table2,
   Cpu,
 } from 'lucide-react';
 
@@ -16,8 +17,9 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'pages', label: 'Pages', icon: FileText },
+  { id: 'MainDashboard', label: 'Dashboard', icon: Table2 },
   { id: 'projects', label: 'Projects', icon: FilePlus },
+  { id: 'pages', label: 'Pages', icon: FileText },
   { id: 'mongodb', label: 'MongoDB', icon: Database },
   { id: 'currentOps', label: 'Current Ops', icon: Activity },
   { id: 'hostInfo', label: 'Host Info', icon: Cpu },

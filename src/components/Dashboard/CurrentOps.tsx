@@ -38,7 +38,7 @@ export default function CurrentOpsTab({
 }: CurrentOpsProps): React.ReactElement {
   return (
     <div className="space-y-6">
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-neutral-900 border">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <div>
             <CardTitle className="text-white">Current Operations</CardTitle>
@@ -59,7 +59,7 @@ export default function CurrentOpsTab({
           ) : (
             <div className="rounded-md border border-zinc-700 overflow-auto">
               <Table>
-                <TableHeader className="bg-zinc-900">
+                <TableHeader className="bg-black">
                   <TableRow>
                     <TableHead className="text-zinc-300">OpID</TableHead>
                     <TableHead className="text-zinc-300">Namespace</TableHead>

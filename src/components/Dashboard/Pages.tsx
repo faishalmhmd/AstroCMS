@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Pencil,
   Trash2,
@@ -12,6 +12,8 @@ import {
   TableBody,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import type { ProjectItem } from '../Dashboard/Projects'
 import axios from 'axios';
 
 type PageItem = {
@@ -23,10 +25,11 @@ type PageItem = {
 };
 
 interface PagesProps {
+  project?: ProjectItem;
   pages: PageItem[];
 }
 
-export default function Pages({ pages }: PagesProps) {
+export default function Pages({ pages,project }: PagesProps) {
   const [localPages, setLocalPages] = useState<PageItem[]>(pages);
 
   useEffect(() => {
@@ -59,7 +62,15 @@ export default function Pages({ pages }: PagesProps) {
   };
   return (
     <main className="space-y-6">
-      <div className="rounded-md border border-zinc-700 overflow-hidden">
+      <div className="border not-first:border-neutral-700 flex bg-neutral-900 p-1 rounded-sm gap-2">
+        <div className="uppercase">
+          Project Id : {project?._id}
+        </div>
+        <Badge variant="outline">
+          Project Name : {project?.name}
+        </Badge>
+      </div>
+      <div className="rounded-md border border-neutral-700 overflow-hidden">
         <Table>
           <TableHeader className="bg-neutral-900">
             <TableRow>

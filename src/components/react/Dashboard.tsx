@@ -9,9 +9,11 @@ import CurrentOpsTab from '../Dashboard/CurrentOps';
 import Projects from '../Dashboard/Projects';
 import TopbarProfile from '../Dashboard/TopbarProfile';
 import Sidebar from '../Dashboard/Sidebar';
-
+import type { ProjectItem } from '../Dashboard/Projects'
+import { Badge } from "@/components/ui/badge"
 export default function Dashboard(): React.ReactElement {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [project,setProject] = useState<ProjectItem>();
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
   const {
     pages,
     projects,
@@ -23,6 +25,12 @@ export default function Dashboard(): React.ReactElement {
     error,
   } = useGetData();
 
+  // function to handle select develope project with param string 
+  // return: none
+  const onClickDevelopProject = (param: ProjectItem) => {
+    setProject(param)
+    console.log(param);
+  }
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -55,7 +63,25 @@ export default function Dashboard(): React.ReactElement {
                 Dashboard
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mr-6">
+              <Badge variant="outline">
+                <div className="uppercase">
+                  <div className="flex gap-2">
+                    <div>
+                      Project Id :
+                    </div>
+                    <div>
+                      {project?._id}
+                    </div>
+                  </div>
+                </div>
+              </Badge>
+              <Badge variant="secondary">
+                {project?.name}
+              </Badge>
+              <Badge variant="outline">
+                {project?.slug}
+              </Badge>
               <ModeToggle />
               <TopbarProfile
                 name="John Doe"
@@ -67,9 +93,9 @@ export default function Dashboard(): React.ReactElement {
           {/* Page Content */}
           <div className="flex-1 overflow-auto no-scrollbar p-6">
             {activeTab === 'dashboard' && <MainDashboard serverStatus={serverStatus} />}
-            {activeTab === 'pages' && <Pages pages={pages} />}
+            {activeTab === 'pages' && <Pages pages={pages} project={project} />}
             {activeTab === 'projects' && (
-              <Projects projects={projects} setProjects={setProjects} />
+              <Projects projects={projects} setProjects={setProjects} onClickDevelop={onClickDevelopProject} />
             )}
             {activeTab === 'mongodb' && (
               <MongoDBTab serverStatus={serverStatus} />

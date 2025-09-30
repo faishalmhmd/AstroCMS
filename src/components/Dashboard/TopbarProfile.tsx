@@ -28,7 +28,7 @@ export default function TopbarProfile({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
           <span className="sr-only">Open user menu</span>
-          <div className="w-full h-full rounded-sm bg-zinc-300 dark:bg-zinc-600 flex items-center justify-center text-sm font-semibold text-black dark:text-white">
+          <div className="w-full h-full rounded-sm bg-zinc-300 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-black dark:text-white">
             {initials}
           </div>
         </Button>

@@ -17,7 +17,7 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'MainDashboard', label: 'Dashboard', icon: Table2 },
+  { id: 'dashboard', label: 'Dasbhoard', icon: Table2 },
   { id: 'projects', label: 'Projects', icon: FilePlus },
   { id: 'pages', label: 'Pages', icon: FileText },
   { id: 'mongodb', label: 'MongoDB', icon: Database },

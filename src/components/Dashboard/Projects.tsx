@@ -21,7 +21,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { FilePlus, Pencil, Trash2, Package, Hammer } from 'lucide-react';
+import { FilePlus, Pencil, Trash2, Package, Hammer, PackagePlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 
@@ -37,9 +37,10 @@ export type ProjectItem = {
 interface ProjectsProps {
   projects: ProjectItem[];
   setProjects: React.Dispatch<React.SetStateAction<ProjectItem[]>>;
+  onClickDevelop: (param: ProjectItem) => void;
 }
 
-export default function Projects({ projects, setProjects }: ProjectsProps) {
+export default function Projects({ projects, setProjects, onClickDevelop }: ProjectsProps) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", slug: "", description: "",status: "new"});
 
@@ -85,7 +86,9 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
           {/* Create Project Dialog */}
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline">New Project</Button>
+              <Button variant="outline">
+                <PackagePlusIcon className="h-4 w-4"/>
+                New Project</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
@@ -147,6 +150,7 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
                 <TableRow>
                   <TableHead className="w-[50px] text-zinc-300">No</TableHead>
                   <TableHead className="text-zinc-300">Name</TableHead>
+                  <TableHead className="text-zinc-300">Desc</TableHead>
                   <TableHead className="text-zinc-300">Slug</TableHead>
                   <TableHead className="text-zinc-300">ID</TableHead>
                   <TableHead className="text-zinc-300">Status Project</TableHead>
@@ -159,6 +163,7 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
                   <TableRow key={p._id} className="border">
                     <TableCell className="text-zinc-300">{idx + 1}</TableCell>
                     <TableCell className="text-zinc-300">{p.name || '-'}</TableCell>
+                    <TableCell className="text-zinc-300">{p.description || '-'}</TableCell>
                     <TableCell className="text-zinc-300"> 
                       <Badge variant="outline">{p.slug || '-'}</Badge>
                     </TableCell>
@@ -180,6 +185,7 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
                           variant="outline"
                           size="icon"
                           className="border text-zinc-300 hover:bg-zinc-800"
+                          onClick={() => onClickDevelop(p)}
                         >
                           <Package className="h-4 w-4" />
                         </Button>

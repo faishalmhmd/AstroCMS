@@ -34,7 +34,7 @@ export default function Sidebar({
 }: SidebarProps): React.ReactElement {
   return (
     <aside className="hidden md:flex h-screen w-64 flex-col border-r  bg-neutral-50 dark:bg-neutral-900  dark:text-white text-black">
-      <div className="flex h-12 items-center gap-2 px-4 border-b border-zinc-800">
+      <div className="flex h-12 items-center gap-2 px-4 border-b">
         <Blocks className="h-6 w-6" />
         <span className="font-semibold">Builder</span>
       </div>

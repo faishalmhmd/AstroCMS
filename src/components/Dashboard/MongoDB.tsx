@@ -111,7 +111,7 @@ export default function MongoDBTab({
   return (
     <div className="space-y-6">
       {/* Status Banner */}
-      <Card className="bg-zinc-900 border-zinc-800 shadow-2xl">
+      <Card className="bg-neutral-900 border-zinc-800 shadow-2xl">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -135,7 +135,7 @@ export default function MongoDBTab({
 
       {/* Key Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-white">Connections</CardTitle>
@@ -150,7 +150,7 @@ export default function MongoDBTab({
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-white">Operations</CardTitle>
@@ -168,7 +168,7 @@ export default function MongoDBTab({
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-white">Memory</CardTitle>
@@ -183,7 +183,7 @@ export default function MongoDBTab({
           </CardContent>
         </Card>
 
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg text-white">Network</CardTitle>
@@ -202,7 +202,7 @@ export default function MongoDBTab({
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Operations Breakdown */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Database className="h-5 w-5 text-zinc-400" />
@@ -259,7 +259,7 @@ export default function MongoDBTab({
         </Card>
 
         {/* Network Traffic */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Network className="h-5 w-5 text-zinc-400" />
@@ -307,7 +307,7 @@ export default function MongoDBTab({
       {/* Detailed Stats Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Cache Performance */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Cpu className="h-5 w-5 text-zinc-400" />
@@ -376,7 +376,7 @@ export default function MongoDBTab({
         </Card>
 
         {/* Connection Details */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Users className="h-5 w-5 text-zinc-400" />
@@ -428,7 +428,7 @@ export default function MongoDBTab({
         </Card>
 
         {/* System Info */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-xl">
+        <Card className="bg-neutral-900 border-zinc-800 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">
               <Server className="h-5 w-5 text-zinc-400" />

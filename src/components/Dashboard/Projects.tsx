@@ -42,13 +42,13 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
   const [form, setForm] = useState({ name: "", slug: "", description: "" });
 
   const refresh = async () => {
-    const res = await axios.get('/api/get-projects');
+    const res = await axios.get('/api/projects/index');
     if (res.data?.success) setProjects(res.data.projects);
   };
 
   const onCreate = async () => {
     if (!form.name.trim()) return;
-    await axios.post('/api/projects/create-project', { ...form });
+    await axios.post('/api/projects/index', { ...form });
     setForm({ name: "", slug: "", description: "" });
     setOpen(false);
     await refresh();
@@ -141,7 +141,7 @@ export default function Projects({ projects, setProjects }: ProjectsProps) {
         <CardContent>
           <div className="rounded-md border overflow-hidden">
             <Table>
-              <TableHeader className="bg-neutral-900">
+              <TableHeader className="bg-black">
                 <TableRow>
                   <TableHead className="w-[50px] text-zinc-300">No</TableHead>
                   <TableHead className="text-zinc-300">Name</TableHead>

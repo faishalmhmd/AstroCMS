@@ -66,7 +66,7 @@ export const useGetData = (): UseGetDataResult => {
           axios.get('/api/get-serverStatus'),
           axios.get('/api/get-currentOp'),
           axios.get('/api/get-hostInfo'),
-          axios.get('/api/get-projects'),
+          axios.get('/api/projects'),
         ]);
 
         if (statsRes.data.success) {

@@ -65,7 +65,7 @@ export default function Pages({ pages }: PagesProps) {
     <main className="space-y-6">
       <div className="rounded-md border border-zinc-700 overflow-hidden">
         <Table>
-          <TableHeader className="bg-zinc-900">
+          <TableHeader className="bg-neutral-900">
             <TableRow>
               <TableHead className="w-[50px] text-zinc-300">No</TableHead>
               <TableHead className="text-zinc-300">Title</TableHead>
@@ -96,7 +96,7 @@ export default function Pages({ pages }: PagesProps) {
                     variant="outline"
                     size="icon"
                     onClick={() => handleEdit(page._id)}
-                    className="border-zinc-600 text-zinc-300 hover:bg-zinc-800"
+                    className="border text-zinc-300 hover:bg-zinc-800"
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>

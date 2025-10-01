@@ -74,38 +74,41 @@ export function Editor({ pageId }: EditorProps): React.ReactElement {
     }
   };
 
-  const savePage = async (
-    pageData: Data<ComponentInterface>
-  ): Promise<void> => {
-    try {
-      let response;
+const savePage = async (
+  pageData: Data<ComponentInterface>
+): Promise<void> => {
+  try {
+    let response;
 
-      if (isEditMode && pageId) {
-        response = await axios.put(`/api/update-page/${pageId}`, pageData);
-        if (response.data.success) {
-          console.log('✅ Page updated successfully');
-        } else {
-          console.error('❌ Failed to update page:', response.data.error);
-        }
+    if (isEditMode && pageId) {
+      response = await axios.put(`/api/update-page/${pageId}`, {
+        ...pageData,
+      });
+      if (response.data.success) {
+        console.log('✅ Page updated successfully');
       } else {
-        response = await axios.post('/api/pages/create-pages', pageData);
-        if (response.data.success) {
-          console.log('✅ Page created successfully. ID:', response.data.id);
-          setIsEditMode(true);
-          window.history.pushState({}, '', `/edit/${response.data.id}`);
-        } else {
-          console.error('❌ Failed to create page:', response.data.error);
-        }
+        console.error('❌ Failed to update page:', response.data.error);
       }
-    } catch (error: any) {
-      console.error('❌ Error saving page:', error.message || error);
+    } else {
+      response = await axios.post('/api/pages/', pageData);
+      if (response.data.success) {
+        console.log('✅ Page created successfully. ID:', response.data.id);
+        setIsEditMode(true);
+        window.history.pushState({}, '', `/edit/${response.data.id}`);
+      } else {
+        console.error('❌ Failed to create page:', response.data.error);
+      }
     }
-  };
+  } catch (error: any) {
+    console.error('❌ Error saving page:', error.message || error);
+  }
+};
+
 
   const handlePublish = (pageData: Data<ComponentInterface>): void => {
     console.log(pageData)
     console.log(`📤 ${isEditMode ? 'Updating' : 'Creating'} page...`);
-    // savePage(pageData);
+    savePage(pageData);
   };
 
   if (isLoading) {

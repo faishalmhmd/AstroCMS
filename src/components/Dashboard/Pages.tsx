@@ -24,7 +24,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import axios from 'axios';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type PageItem = {
   _id: string;
@@ -40,9 +39,9 @@ interface PagesProps {
 
 export default function Pages({ project }: PagesProps) {
   const [open, setOpen] = useState(false);
-  const [pages,setPages] = useState<PageItem[]>([])
+  const [pages, setPages] = useState<PageItem[]>([]);
   const [form, setForm] = useState({
-    name: '',
+    title: '',
     projectId: project?._id,
   });
 
@@ -83,9 +82,9 @@ export default function Pages({ project }: PagesProps) {
   // function to handle create data
   // return: none
   const onCreate = async () => {
-    if (!form.name.trim()) return;
+    if (!form.title.trim()) return;
     await axios.post('/api/pages', { ...form });
-    setForm({ name: '', projectId: project?._id });
+    setForm({ title: '', projectId: project?._id });
     setOpen(false);
   };
   return (
@@ -106,7 +105,7 @@ export default function Pages({ project }: PagesProps) {
       <div className="flex justify-end">
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" className="!bg-green-600">
               <FilePlus className="h-4 w-4" />
               New Pages
             </Button>
@@ -126,8 +125,8 @@ export default function Pages({ project }: PagesProps) {
                 </Label>
                 <Input
                   id="name"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
                 />
               </div>
             </div>
@@ -141,9 +140,9 @@ export default function Pages({ project }: PagesProps) {
               <Button
                 variant="outline"
                 onClick={onCreate}
-                className="border text-zinc-200 hover:bg-zinc-800"
+                className="!bg-green-600"
               >
-                <FilePlus className="h-4 w-4 mr-2" /> Create
+                <FilePlus className="h-4 w-4 " /> Create
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -178,7 +177,6 @@ export default function Pages({ project }: PagesProps) {
                   {page.updatedAt || '-'}
                 </TableCell>
                 <TableCell className="flex justify-end gap-3">
-
                   <Button
                     variant="outline"
                     size="icon"

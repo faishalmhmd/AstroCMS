@@ -4,26 +4,29 @@ import { getDb } from '@/lib/mongodb';
 export const GET: APIRoute = async ({ request }) => {
   try {
     const url = new URL(request.url);
-    const projectId = url.searchParams.get("projectId");
+    const projectId = url.searchParams.get('projectId');
 
     const db = await getDb();
-    const collection = db.collection("cms");
+    const collection = db.collection('cms');
 
     let query: any = {};
     if (projectId) {
       query.projectId = projectId;
     }
 
-    const pages = await collection.find(query).sort({ updatedAt: -1 }).toArray();
+    const pages = await collection
+      .find(query)
+      .sort({ updatedAt: -1 })
+      .toArray();
 
     return new Response(JSON.stringify({ success: true, pages }), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     return new Response(
       JSON.stringify({ success: false, error: (error as Error).message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
 };

@@ -4,6 +4,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -195,58 +200,95 @@ export default function Projects({
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="border text-zinc-300 hover:bg-zinc-800"
-                        >
-                          <Hammer className="h-4 w-4" />
-                        </Button>
-                        <Dialog>
-                          <DialogTrigger asChild>
+                        {/* Hammer Button with Tooltip */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => onClickDevelop(p)}
-                              className="border text-zinc-300 hover:bg-zinc-800"
+                              className="!bg-violet-600"
                             >
-                              <Package className="h-4 w-4" />
+                              <Hammer className="h-4 w-4" />
                             </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-lg">
-                            <DialogHeader>
-                              <DialogTitle>Develop Project</DialogTitle>
-                              <DialogDescription>
-                                Manage development settings for this project.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="space-y-2">
-                              <p>
-                                <strong>Name:</strong> {p.name}
-                              </p>
-                              <p>
-                                <strong>Slug:</strong> {p.slug}
-                              </p>
-                              <p>
-                                <strong>Description:</strong> {p.description}
-                              </p>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="border-zinc-600 text-zinc-300 hover:bg-zinc-800"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          className="text-white"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Build Project</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* Package Button with Dialog + Tooltip */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={() => onClickDevelop(p)}
+                                  className="!bg-violet-600"
+                                >
+                                  <Package className="h-4 w-4" />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-lg">
+                                <DialogHeader>
+                                  <DialogTitle>Develop Project</DialogTitle>
+                                  <DialogDescription>
+                                    Manage development settings for this
+                                    project.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-2">
+                                  <p>
+                                    <strong>Name:</strong> {p.name}
+                                  </p>
+                                  <p>
+                                    <strong>Slug:</strong> {p.slug}
+                                  </p>
+                                  <p>
+                                    <strong>Description:</strong>{' '}
+                                    {p.description}
+                                  </p>
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Develop Project</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* Edit Button */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="!bg-violet-600"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Edit Page</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        {/* Delete Button */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              className="!bg-violet-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Delete Page</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </div>
                     </TableCell>
                   </TableRow>

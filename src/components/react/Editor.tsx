@@ -103,8 +103,9 @@ export function Editor({ pageId }: EditorProps): React.ReactElement {
   };
 
   const handlePublish = (pageData: Data<ComponentInterface>): void => {
+    console.log(pageData)
     console.log(`📤 ${isEditMode ? 'Updating' : 'Creating'} page...`);
-    savePage(pageData);
+    // savePage(pageData);
   };
 
   if (isLoading) {

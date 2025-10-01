@@ -64,24 +64,27 @@ export default function Dashboard(): React.ReactElement {
               </div>
             </div>
             <div className="flex items-center gap-2 mr-6">
-              <Badge variant="outline">
-                <div className="uppercase">
-                  <div className="flex gap-2">
-                    <div>
-                      Project Id :
-                    </div>
-                    <div>
-                      {project?._id}
+              { project && <div className="">
+                <Badge variant="outline">
+                  <div className="uppercase">
+                    <div className="flex gap-2">
+                      <div>
+                        Project Id :
+                      </div>
+                      <div>
+                        {project?._id}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Badge>
-              <Badge variant="secondary">
-                {project?.name}
-              </Badge>
-              <Badge variant="outline">
-                {project?.slug}
-              </Badge>
+                </Badge>
+                <Badge variant="secondary">
+                  {project?.name}
+                </Badge>
+                <Badge variant="outline">
+                  {project?.slug}
+                </Badge>
+              </div> 
+              }
               <ModeToggle />
               <TopbarProfile
                 name="John Doe"

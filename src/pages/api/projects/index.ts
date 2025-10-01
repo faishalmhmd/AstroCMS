@@ -5,7 +5,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
     const db = await getDb();
-    const collection = db.collection('projects' );
+    const collection = db.collection('projects');
 
     const pageData = {
       ...data,

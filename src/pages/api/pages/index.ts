@@ -1,16 +1,20 @@
 import type { APIRoute } from 'astro';
 import { getDb } from '@/lib/mongodb';
 
-
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   try {
+    const url = new URL(request.url);
+    const projectId = url.searchParams.get("projectId");
+
     const db = await getDb();
     const collection = db.collection("cms");
 
-    const pages = await collection
-      .find()
-      .sort({ updatedAt: -1 })
-      .toArray();
+    let query: any = {};
+    if (projectId) {
+      query.projectId = projectId;
+    }
+
+    const pages = await collection.find(query).sort({ updatedAt: -1 }).toArray();
 
     return new Response(JSON.stringify({ success: true, pages }), {
       status: 200,
@@ -56,7 +60,3 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 };
-
-
-
-

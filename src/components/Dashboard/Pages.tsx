@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import {
-  Pencil,
-  Trash2,
-} from 'lucide-react';
+import { Pencil, Trash2, PackagePlusIcon, FilePlus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Table,
   TableHead,
@@ -13,8 +12,19 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import type { ProjectItem } from '../Dashboard/Projects'
+import type { ProjectItem } from '../Dashboard/Projects';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import axios from 'axios';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type PageItem = {
   _id: string;
@@ -26,49 +36,118 @@ type PageItem = {
 
 interface PagesProps {
   project?: ProjectItem;
-  pages: PageItem[];
 }
 
-export default function Pages({ pages,project }: PagesProps) {
-  const [localPages, setLocalPages] = useState<PageItem[]>(pages);
+export default function Pages({ project }: PagesProps) {
+  const [open, setOpen] = useState(false);
+  const [pages,setPages] = useState<PageItem[]>([])
+  const [form, setForm] = useState({
+    name: '',
+    projectId: project?._id,
+  });
 
   useEffect(() => {
-    setLocalPages(pages);
-  }, [pages]);
+    getDataPages(project?._id ?? '');
+  }, [project]);
 
+  // function to get data pages
+  // return: none
+  const getDataPages = async (id: string) => {
+    try {
+      const res = await axios.get(`/api/pages?projectId=${id}`);
+      setPages(res.data.pages);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // function to handle get data pages with params
+  // return: list pages
   const handleDelete = async (id: string) => {
-    const confirmed =
-      typeof window !== 'undefined'
-        ? window.confirm('Are you sure you want to delete this page?')
-        : false;
-    if (!confirmed) return;
-
     try {
       const res = await axios.delete(`/api/pages/delete-page/${id}`);
-      if (res.data?.success) {
-        setLocalPages((prev) => prev.filter((p) => p._id !== id));
-      } else {
-        console.error('Failed to delete page:', res.data?.error);
-      }
     } catch (err) {
       console.error('Error deleting page:', err);
     }
   };
 
+  // function to handle edit with params id
+  // return: none
   const handleEdit = (id: string) => {
     if (typeof window !== 'undefined') {
       window.location.href = `/edit/${id}`;
     }
   };
+
+  // function to handle create data
+  // return: none
+  const onCreate = async () => {
+    if (!form.name.trim()) return;
+    await axios.post('/api/pages', { ...form });
+    setForm({ name: '', projectId: project?._id });
+    setOpen(false);
+  };
   return (
     <main className="space-y-6">
-      <div className="border not-first:border-neutral-700 flex bg-neutral-900 p-1 rounded-sm gap-2">
-        <div className="uppercase">
-          Project Id : {project?._id}
+      {project ? (
+        <div className="border not-first:border-neutral-700 flex bg-neutral-900 p-1 rounded-sm gap-2">
+          <div className="uppercase">Project Id : {project?._id}</div>
+          <Badge variant="outline">Project Name : {project?.name}</Badge>
         </div>
-        <Badge variant="outline">
-          Project Name : {project?.name}
-        </Badge>
+      ) : (
+        <div className="bg-neutral-900 border p-4 rounded-lg text-red-700">
+          <div className="">Select Project First</div>
+          <p className="text-sm text-red-800">
+            Please choose a project from the list to view its details.
+          </p>
+        </div>
+      )}
+      <div className="flex justify-end">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline">
+              <FilePlus className="h-4 w-4" />
+              New Pages
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Create New Project</DialogTitle>
+              <DialogDescription>
+                Fill in the details to create a new project.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="name" className="mb-2">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="flex justify-end gap-2">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button
+                variant="outline"
+                onClick={onCreate}
+                className="border text-zinc-200 hover:bg-zinc-800"
+              >
+                <FilePlus className="h-4 w-4 mr-2" /> Create
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="rounded-md border border-neutral-700 overflow-hidden">
         <Table>
@@ -85,7 +164,7 @@ export default function Pages({ pages,project }: PagesProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {localPages.map((page, idx) => (
+            {pages.map((page, idx) => (
               <TableRow key={page._id} className="border-zinc-700">
                 <TableCell className="text-zinc-300">{idx + 1}</TableCell>
                 <TableCell className="text-zinc-300">

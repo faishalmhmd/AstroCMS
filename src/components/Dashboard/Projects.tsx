@@ -206,7 +206,7 @@ export default function Projects({
                             <Button
                               variant="outline"
                               size="icon"
-                              className="!bg-violet-600"
+                              className="!bg-violet-600 cursor-pointer"
                             >
                               <Hammer className="h-4 w-4" />
                             </Button>
@@ -215,56 +215,53 @@ export default function Projects({
                             <p>Build Project</p>
                           </TooltipContent>
                         </Tooltip>
-
                         {/* Package Button with Dialog + Tooltip */}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Dialog>
+                        <Dialog>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
                               <DialogTrigger asChild>
                                 <Button
                                   variant="outline"
                                   size="icon"
                                   onClick={() => onClickDevelop(p)}
-                                  className="!bg-violet-600"
+                                  className="!bg-violet-600 cursor-pointer"
                                 >
                                   <Package className="h-4 w-4" />
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent className="sm:max-w-lg">
-                                <DialogHeader>
-                                  <DialogTitle>Develop Project</DialogTitle>
-                                  <DialogDescription>
-                                    Manage development settings for this
-                                    project.
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <div className="space-y-2">
-                                  <p>
-                                    <strong>Name:</strong> {p.name}
-                                  </p>
-                                  <p>
-                                    <strong>Slug:</strong> {p.slug}
-                                  </p>
-                                  <p>
-                                    <strong>Description:</strong>{' '}
-                                    {p.description}
-                                  </p>
-                                </div>
-                              </DialogContent>
-                            </Dialog>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Develop Project</p>
-                          </TooltipContent>
-                        </Tooltip>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Develop Project</p>
+                            </TooltipContent>
+                          </Tooltip>
 
+                          <DialogContent className="sm:max-w-lg">
+                            <DialogHeader>
+                              <DialogTitle>Develop Project</DialogTitle>
+                              <DialogDescription>
+                                Manage development settings for this project.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-2">
+                              <p>
+                                <strong>Name:</strong> {p.name}
+                              </p>
+                              <p>
+                                <strong>Slug:</strong> {p.slug}
+                              </p>
+                              <p>
+                                <strong>Description:</strong> {p.description}
+                              </p>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                         {/* Edit Button */}
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button
                               variant="outline"
                               size="icon"
-                              className="!bg-violet-600"
+                              className="!bg-violet-600 cursor-pointer"
                             >
                               <Pencil className="h-4 w-4" />
                             </Button>
@@ -280,7 +277,7 @@ export default function Projects({
                             <Button
                               variant="destructive"
                               size="icon"
-                              className="!bg-violet-600"
+                              className="!bg-violet-600 cursor-pointer"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>

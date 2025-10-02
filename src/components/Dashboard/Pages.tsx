@@ -46,7 +46,9 @@ export default function Pages({ project }: PagesProps) {
   });
 
   useEffect(() => {
-    getDataPages(project?._id ?? '');
+    if (project) {
+      getDataPages(project?._id ?? '');
+    }
   }, [project]);
 
   // function to get data pages
@@ -65,7 +67,11 @@ export default function Pages({ project }: PagesProps) {
   // return: list pages
   const handleDelete = async (id: string) => {
     try {
-      const res = await axios.delete(`/api/pages/delete-page/${id}`);
+      await axios.delete(`/api/pages/${id}`);
+      // Refresh the pages list after deletion
+      if (project) {
+        await getDataPages(project._id);
+      }
     } catch (err) {
       console.error('Error deleting page:', err);
     }

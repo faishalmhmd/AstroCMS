@@ -65,36 +65,3 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 };
-
-
-export const PUT: APIRoute = async ({ params, request }) => {
-  try {
-    const { id } = params;
-    const updateData = await request.json();
-
-    const db = await getDb();
-    const collection = db.collection('cms');
-
-    const result = await collection.updateOne(
-      { projectId: id },
-      { $set: { ...updateData, updatedAt: new Date() } }
-    );
-
-    if (result.matchedCount === 0) {
-      return new Response(JSON.stringify({ success: false, error: 'Page not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({ success: false, error: error.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-};
